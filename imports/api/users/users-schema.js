@@ -12,6 +12,10 @@ export const schema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  soul_id: {
+    type: String,
+    optional: true
+  },
   'emails.$': {
     type: Object,
     numFixtures: 1,
@@ -24,10 +28,6 @@ export const schema = new SimpleSchema({
   'emails.$.verified': {
     type: Boolean,
     fixture: () => true,
-  },
-  artist_id: {
-    type: String,
-    optional: true,
   },
   created_at: {
     type: Date,

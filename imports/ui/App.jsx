@@ -1,8 +1,4 @@
 import React from 'react';
-import { Hello } from './Hello.jsx';
-import { Info } from './Info.jsx';
-import { Login } from './Login.jsx';
+import { Login } from './account/Login.jsx';
 
-export const App = () => (
-    <Login/>
-);
+export const App = () => null;

@@ -1,7 +1,25 @@
 module.exports = {
   content: ["./imports/ui/**/*.{js,jsx,ts,tsx}", './client/*.html'],
-  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  theme: {
+    extend: {
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+        sans: ['montserrat']
+      }
+    }
+  },
   daisyui: {
-    themes: ["winter"]
-  }
+    themes: [
+      {
+        light: {
+          ...require("daisyui/src/colors/themes")["[data-theme=light]"],
+          "primary": "#18A0FB",
+          "neutral": "#333333"
+          // "base-100": '#333333'
+        },
+      }
+    ]
+    
+  },
+  plugins: [require("@tailwindcss/typography"), require("daisyui")]
 }
