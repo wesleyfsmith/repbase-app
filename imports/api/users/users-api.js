@@ -1,10 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { UsersCollection, Users } from './users-schema';
-import { TattoosCollection } from '../tattoos/tattoos-schema';
 import { registerMethods } from '../utils/register-methods';
 import { sendEmail } from '../utils/send-email';
-import { loggingIn } from './users-client';
 
 // these are client only, to make our api consistent due to meteor quirks
 // generally speaking, we want the users collection to stay minimal because it has unique constraints
@@ -49,7 +47,17 @@ export const api = {
 
 if (Meteor.isServer) {
   Accounts.onCreateUser((options, user) => {
-    sendEmail(
+    if (user.profile) {
+      user.employee_profile = {
+        names: options.profile.names,
+        last_names: options.profile.last_names,
+        company_email: options.profile.company_email,
+        company_sector: options.profile.company_sector
+      }
+    }
+      
+      //TODO verify both addresses? 
+      sendEmail(
       'verify_email',
       user.emails[0].address,
       {

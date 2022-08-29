@@ -12,6 +12,8 @@ export const setFakerLib = (fakerLibrary) => {
 };
 
 export const getFaker = () => {
+  console.log({fakerLib})
+
   if (!fakerLib) {
     return {
       name: {
@@ -33,5 +35,6 @@ export const getFaker = () => {
       },
     };
   }
+  console.log({fakerLib})
   return fakerLib;
 };

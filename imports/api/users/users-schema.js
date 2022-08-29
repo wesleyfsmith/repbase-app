@@ -3,7 +3,31 @@ import SimpleSchema from 'simpl-schema';
 import { getFaker } from '/imports/api/utils/optimized-faker';
 import { idExistsInCollection } from '../utils/schema-utils';
 
+const employeeProfileSchema = new SimpleSchema({
+  names: {
+    type: String,
+    fixture: getFaker().name.findName
+  },
+  last_names: {
+    type: String,
+    fixture: getFaker().name.findName
+  },
+  company_email: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email,
+    fixture: getFaker().internet.email
+  },
+  company_sector: {
+    type: String,
+    fixture: () => "business"
+  }
+});
+
 export const schema = new SimpleSchema({
+  employee_profile: {
+    type: employeeProfileSchema,
+    optional: true
+  },
   emails: {
     type: Array,
     optional: true,
@@ -41,7 +65,7 @@ export const schema = new SimpleSchema({
   heartbeat: {
     type: Date,
     optional: true,
-  },
+  }, 
 });
 
 Meteor.users.attachSchema(schema);
@@ -58,3 +82,4 @@ Meteor.users.selectors = usersSelectors;
 Meteor.users.exists = (_id) => !!Meteor.users.findOne({ _id });
 
 export const db = Meteor.users;
+ 

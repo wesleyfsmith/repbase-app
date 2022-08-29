@@ -1,20 +1,11 @@
-import assert from "assert";
+// we need to do this to prevent faker from loading in the client bundle and
+// to keep the bundle size small
+import { faker } from '@faker-js/faker';
+import { setFakerLib } from '/imports/api/utils/optimized-faker';
+setFakerLib(faker);
 
-describe("repbase-app", function () {
-  it("package.json has correct name", async function () {
-    const { name } = await import("../package.json");
-    assert.strictEqual(name, "repbase-app");
-  });
-
-  if (Meteor.isClient) {
-    it("client is not server", function () {
-      assert.strictEqual(Meteor.isServer, false);
-    });
-  }
-
-  if (Meteor.isServer) {
-    it("server is not client", function () {
-      assert.strictEqual(Meteor.isClient, false);
-    });
-  }
-});
+// import('./collection-utils.test');
+// import('/imports/api/users/users-tests');
+// import('/imports/api/attestation-types/attestation-types-tests');
+// import '/imports/api/badges/badges-tests';
+import '/imports/api/attestations/attestations-tests';
