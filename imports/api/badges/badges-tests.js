@@ -17,7 +17,6 @@ describe('Badges', function() {
     it ('should create a new badge with correct userId', function() {
       Users.test.loginAsUser('test-id');
       const newBadge = generateFromSchema(Badges.schema);
-      console.log({newBadge})
       Badges.api.create.call(newBadge);
       const badge = Badges.db.findOne();
     });

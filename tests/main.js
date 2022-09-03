@@ -4,8 +4,7 @@ import { faker } from '@faker-js/faker';
 import { setFakerLib } from '/imports/api/utils/optimized-faker';
 setFakerLib(faker);
 
-// import('./collection-utils.test');
-// import('/imports/api/users/users-tests');
-// import('/imports/api/attestation-types/attestation-types-tests');
-// import '/imports/api/badges/badges-tests';
+import './collection-utils.test';
+import '/imports/api/users/users-tests';
+import '/imports/api/badges/badges-tests';
 import '/imports/api/attestations/attestations-tests';

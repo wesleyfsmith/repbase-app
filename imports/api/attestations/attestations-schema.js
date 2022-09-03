@@ -32,6 +32,14 @@ export const schema = new SimpleSchema({
   created_at: {
     type: Date,
     defaultValue: new Date(),
+  },
+  start_interval: {
+    type: Date,
+    defaultValue: new Date(),
+  },
+  end_interval: {
+    type: Date,
+    defaultValue: new Date(),
   }
 });
   
