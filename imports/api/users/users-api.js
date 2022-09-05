@@ -58,10 +58,6 @@ if (Meteor.isServer) {
         company_sector: options.profile.company_sector
       }
     }
-
-    if (options.profile.account_type === 'manager') {
-      
-    }
       
       //TODO verify both addresses? 
       sendEmail(
