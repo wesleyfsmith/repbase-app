@@ -2,6 +2,7 @@ import { Titlebar } from '../components/Titlebar';
 import { Navbar } from '../components/Navbar';
 import React, {useState} from 'react';
 import { FooterWhite } from '../footer/FooterBlack';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const SettingsForm = () => {
   const [names, setNames] = useState('');
@@ -82,9 +83,11 @@ export const Settings = () => (
         <p>No has conectado una billetera web3 (ej. Metamask) a Repbase.</p> 
         <p>Esta es necesario para que puedas usar tus RepTokens y registrar tus logros en el blockchain.</p>
       </article>
-        <div className="form-control pt-2">
-          <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary mt-4">Connectar billetera</button>
-        </div>
+
+      <div className="flex justify-center mt-4">
+        <ConnectButton className="w-full" label="CONNECTAR BILLETERA" chainStatus="icon" />
+      </div>
+      
       <article className="prose prose-xl pt-8 ">
         <p className="font-bold">Tus Datos</p>
       </article>

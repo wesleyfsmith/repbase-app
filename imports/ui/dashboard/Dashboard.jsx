@@ -4,20 +4,25 @@ import { Navbar } from '../components/Navbar';
 import { TokenBalance } from '../reptokens/TokenBalance';
 import { CogIcon } from '@heroicons/react/outline'
 import { AttestationsList } from '../attestations/AttestationsList';
+import { Link } from 'react-router-dom';
 
 export const Dashboard = () => (
   <div className="h-max">
     <Titlebar />
     <div className="mx-auto px-3">
       <Navbar title="Hola Luis!" 
-        iconRight={<CogIcon className="h-7 w-7 text-blue-500 mt-1 ml-auto"/>
-        } />
+        iconRight={
+          <Link to="/settings">
+            <CogIcon className="h-7 w-7 text-blue-500 mt-1 ml-auto"/>
+          </Link>
+        } noCenterTitle={true} />
       
     </div>
-    <TokenBalance />
-      <div className="form-control">
-       <button className="btn btn-primary mt-4">Usar Tokens</button>
-      </div>
+    <div className="m-4">
+      <TokenBalance />
+    </div>
+    
+      
     <div className="p-4 mt-4 bg-neutral">
       <article className="prose prose-xl">
         <p className="font-bold text-white">Colección de logros</p>

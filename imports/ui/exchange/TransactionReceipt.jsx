@@ -3,7 +3,7 @@ import { Titlebar } from '../components/Titlebar';
 import { Navbar } from '../components/Navbar';
 
 const BitcoinIcon = () => (
-  <div className="w-24 px-4">
+  <div className="w-10">
     <div className="flex justify-center">
     <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M34.2692 19.7669C34.2697 28.0529 27.5482 34.7658 19.2733 34.7634C10.987 34.7639 4.2742 28.0427 4.27668 19.7679C4.27623 11.4819 10.9862 4.77189 19.2725 4.77151C27.5446 4.76247 34.2688 11.4807 34.2692 19.7669Z" fill="#D9D9D9"/>
@@ -38,54 +38,76 @@ const USDCIcon = () => (
   </div>
 );
 
-const TokenDetails = ({name, rate, info, icon}) => (
-  <div className="bg-accent rounded-lg mx-4 p-1.5 mb-4">
-    <div className="bg-neutral rounded-lg p-3">
-      <div className="flex">
-        {icon}
-        <div>
-          <article className="prose prose-xl text-white">
-            <p className="font-bold">{name}</p>
-          </article>
-          <article className="prose text-white">
-            <p>${rate}</p>
-          </article>
-        </div>
-      </div>
-      <div>
-        <article className="prose prose-l text-white mt-3">
-            <p className="font-bold">{`Sobre ${name}:`}</p>
-          </article>
-          <article className="prose text-white leading-6">
-            <p>{info}</p>
-            <a className="text-primary">{`Ver más sobre ${name}.`}</a>
-          </article>
-      </div>
+const BlueLineSeparator = () => (
+  <div className="w-9/10 border-b border-primary mr-2 pt-1 pb-1"></div>
+)
+
+const InfoIcon = () => (
+  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 0C12.6522 0 15.1957 1.05357 17.0711 2.92893C18.9464 4.8043 20 7.34783 20 10C20 12.6522 18.9464 15.1957 17.0711 17.0711C15.1957 18.9464 12.6522 20 10 20C7.34783 20 4.8043 18.9464 2.92893 17.0711C1.05357 15.1957 0 12.6522 0 10C0 7.34783 1.05357 4.8043 2.92893 2.92893C4.8043 1.05357 7.34783 0 10 0V0ZM11.4999 6.13956C12.2427 6.13956 12.8455 5.62388 12.8455 4.85965C12.8455 4.09542 12.2413 3.57974 11.4999 3.57974C10.7571 3.57974 10.1571 4.09542 10.1571 4.85965C10.1571 5.62388 10.7571 6.13956 11.4999 6.13956ZM11.7613 14.1776C11.7613 14.0247 11.8142 13.6276 11.7842 13.4019L10.61 14.7532C10.3671 15.0089 10.0629 15.1861 9.92001 15.1389C9.8552 15.1151 9.80104 15.0689 9.76726 15.0086C9.73348 14.9484 9.7223 14.8781 9.73573 14.8104L11.6927 8.62795C11.8527 7.84372 11.4128 7.12806 10.48 7.03664C9.49575 7.03664 8.04728 8.03514 7.16592 9.30219C7.16592 9.45361 7.13735 9.83073 7.16735 10.0564L8.34012 8.70366C8.58296 8.45082 8.8658 8.27227 9.00864 8.32083C9.07902 8.34609 9.13669 8.39794 9.16927 8.46524C9.20185 8.53254 9.20675 8.60994 9.18292 8.68081L7.24305 14.8332C7.01878 15.5532 7.44304 16.2588 8.47154 16.4188C9.98571 16.4188 10.8799 15.4446 11.7627 14.1776H11.7613Z" fill="#18A0FB"/>
+  </svg>
+);
+
+const CardBox = ({name, rate, info, icon}) => (
+  <div className="bg-gray-100 rounded-lg mx-4 p-4 mb-4 mt-4">
+    <article className="prose prose-xl font-bold text-primary text-center">
+      Transacción Aprobada
+    </article>
+    <article className="prose prose-xl font-bold text-center">
+      Convertiste RepTokens a wBTC
+    </article>
+    <article className="prose prose-sm text-center">
+      Jul 25 2022, 10:00 am 
+    </article>
+    <div className="flex justify-between mt-8">
+      <article className="prose flex flex-col justify-center font-bold">
+        <p className="">RepTokens convertidos</p>
+      </article>
+      <article className="prose">
+        <p>0,007</p>
+      </article>
     </div>
-    <div className="form-control pt-2">
-      <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary">Seleccionar</button>
+    <div className="flex justify-between mt-4">
+      <article className="prose flex flex-col justify-center font-bold">
+        <p className="">Tasa de cambio</p>
+      </article>
+      <article className="prose">
+        <p>0,007</p>
+      </article>
+    </div>
+    <div className="flex justify-between mt-4">
+      <article className="prose flex flex-col justify-center font-bold">
+        <p className="">Costos de transacción</p>
+      </article>
+      <article className="prose">
+        <p>0,007</p>
+      </article>
+    </div>
+    <div className="flex justify-between mt-4">
+      <article className="prose flex flex-col justify-center font-bold">
+        <p className="">Valor pagado</p>
+      </article>
+      <article className="prose">
+        <p>0,007</p>
+      </article>
+    </div>
+    <div className="flex justify-between mt-4">
+      <article className="prose flex flex-col justify-center font-bold text-primary">
+        <p className="">Recibiste</p>
+      </article>
+      <article className="prose">
+        <p>0,007</p>
+      </article>
+    </div>
+    <div className="form-control mt-4">
+      <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary">Regresar</button>
     </div>
   </div>
 );
-
-export const TokenSelect = () => (
+ 
+export const TransactionReceipt = () => (
   <div className="h-max">
     <Titlebar />
-    <div className="container mx-auto px-3">
-      <Navbar showBackButton title="Elegir Token" />
-    </div>
-    <TokenDetails name={`Wrapped Bitcoin`} rate={`wBTC 1 ~ USD$ 21.025,15`}
-      icon={<BitcoinIcon/>}
-      info={`Es un espejo en el blockchain de Ethereum de la primera y más popular criptomoneda del mundo: Bitcoin. Este token no es Bitcoin en sí, pero refleja su valor exacto en tiempo real. A diferencia del Bitcoin normal, puedes usarlo en contratos inteligentes.`}
-    />
-    <TokenDetails name={`Ethereum`} rate={`wBTC 1 ~ USD$ 21.025,15`}
-      icon={<EthereumIcon/>}
-      info={`La segunda moneda más popular del mundo llegó a esta posición por su flexibilidad y utilidad en aplicaciones decentralizadas como juegos y exchanges de cripto descentralizados. Muy útil para quienes quieren experimentar en el mundo de web3.`}
-    />
-    <TokenDetails name={`USD Coin`} rate={`1USDC=USD$1`}
-      icon={<USDCIcon/>}
-      info={`Es una de las llamadas ‘monedas estables’. Llevan este nombre porque el valor de un token de USDC siempre será de un dólar estadounidense ya que cada dólar en el blockchain está respaldado por uno en un banco tradicional en Estados Unidos.`}
-    />
-    
+    <CardBox />    
   </div>    
 ); 

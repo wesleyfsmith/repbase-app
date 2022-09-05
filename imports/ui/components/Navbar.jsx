@@ -1,18 +1,24 @@
 import React from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/outline'
 import { CogIcon } from '@heroicons/react/outline'
+import { useNavigate} from "react-router-dom";
 
-export const Navbar = ({title, showBackButton, iconRight}) => (
+export const Navbar = ({title, showBackButton, iconRight, noCenterTitle}) => {
+  
+  const shouldCenterTitle = noCenterTitle ? ' ' : 'justify-center';
+  const navigate = useNavigate();
+  return (
   <div className="flex h-full flex-row py-2">
     {showBackButton &&
-      <ArrowLeftIcon className="h-7 w-7 text-blue-500 mt-1"/>
+      <ArrowLeftIcon onClick={() => navigate(-1)} className="h-7 w-7 text-blue-500 mt-1"/>
     }
-    
-    <article className="prose prose-xl pl-2 ">
-      <p className="font-bold text-primary">{title}</p>
-    </article>
+    <div className={`flex ${shouldCenterTitle} w-full pr-7`}>
+      <article className="prose prose-xl pl-2 ">
+        <p className="font-bold text-primary">{title}</p>
+      </article>
+    </div>
     {
       iconRight
     }
   </div>
-);
+)};

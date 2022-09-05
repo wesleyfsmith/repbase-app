@@ -3,7 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import { getFaker } from '/imports/api/utils/optimized-faker';
 import { idExistsInCollection } from '../utils/schema-utils';
 
-const employeeProfileSchema = new SimpleSchema({
+export const employeeProfileSchema = new SimpleSchema({
   names: {
     type: String,
     fixture: getFaker().name.findName

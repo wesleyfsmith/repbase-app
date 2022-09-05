@@ -1,7 +1,7 @@
 // TOP LEVEL API object for importing
 // TODO clean this up when imports are done
 import { Meteor } from 'meteor/meteor';
-import { db, schema } from './users-schema';
+import { db, schema, employeeProfileSchema } from './users-schema';
 import { api } from '/imports/api/users/users-api';
 import { fixtures } from '/imports/api/users/users-fixtures';
 import { client } from '/imports/api/users/users-client';
@@ -11,6 +11,7 @@ let mockedUserId = '';
 export const Users = {
   db,
   schema,
+  employeeProfileSchema,
   api,
   client,
   fixtures,
