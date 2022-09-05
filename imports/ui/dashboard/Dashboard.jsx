@@ -5,25 +5,27 @@ import { TokenBalance } from '../reptokens/TokenBalance';
 import { CogIcon } from '@heroicons/react/outline'
 import { AttestationsList } from '../attestations/AttestationsList';
 import { Link } from 'react-router-dom';
+import { FooterBlack } from '../footer/FooterBlack';
 
 export const Dashboard = () => (
-  <div className="h-max">
+  <div className="bg-neutral">
+
+    <div className="bg-white pb-4">
     <Titlebar />
-    <div className="mx-auto px-3">
-      <Navbar title="Hola Luis!" 
+    <Navbar title="Hola Luis!" 
         iconRight={
           <Link to="/settings">
             <CogIcon className="h-7 w-7 text-blue-500 mt-1 ml-auto"/>
           </Link>
         } noCenterTitle={true} />
-      
-    </div>
     <div className="m-4">
       <TokenBalance />
     </div>
+    </div>
+    
     
       
-    <div className="p-4 mt-4 bg-neutral">
+    <div className="p-4 bg-neutral">
       <article className="prose prose-xl">
         <p className="font-bold text-white">Colección de logros</p>
       </article>
@@ -32,8 +34,12 @@ export const Dashboard = () => (
         </div>
         
         <div className="form-control">
-          <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary mt-4">Ver Logros</button>
+          <Link to="/attestationscount">
+            <button className="btn btn-primary mt-4 w-full">Ver Logros</button>
+          </Link>
+          
         </div>
     </div>
+    <FooterBlack />
   </div>
 );

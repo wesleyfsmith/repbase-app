@@ -1,12 +1,12 @@
 import React from 'react';
 
-export const FooterWhite = () => (
-  <div className="h-full mt-8 pb-4">
+export const FooterBlack = () => (
+  <div className="mt-8 pb-4">
     <article className="prose ">
-      <p className="text-accent text-center">{`Copyright © 2022\n`}</p>
+      <p className="text-center text-white">{`Copyright © 2022\n`}</p>
     </article>
     <article className="prose ">
-      <p className="text-accent text-center">{`All right reserved by Repbase`}</p>
+      <p className="text-center text-white">{`All right reserved by Repbase`}</p>
     </article>
   </div>
 );

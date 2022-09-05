@@ -9,7 +9,7 @@ import { Users } from './users-module';
 export const fixtures = {
   generateManagerUser() {
     const email = getFaker().internet.email();
-    Accounts.createUser({ email, password: 'password' });
+    Accounts.createUser({ email, password: 'password', profile: {account_type: 'manager'} });
     return Users.db.findOne(Users.db.selectors.findByEmail(email));
   },
   generateNormalUser() {
@@ -18,7 +18,8 @@ export const fixtures = {
       names: getFaker().name.fullName(),
       last_names: getFaker().name.fullName(),
       company_email: getFaker().internet.email(),
-      company_sector: "tech"
+      company_sector: "tech",
+      account_type: 'employee'
     }
     //fun meteor account stuff
     Accounts.createUser({ email, password: 'password', profile: employeeProfile });

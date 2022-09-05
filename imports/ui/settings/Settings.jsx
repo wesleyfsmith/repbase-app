@@ -1,8 +1,11 @@
 import { Titlebar } from '../components/Titlebar';
 import { Navbar } from '../components/Navbar';
-import React, {useState} from 'react';
-import { FooterWhite } from '../footer/FooterBlack';
+import React, {useState, useEffect} from 'react';
+import { FooterWhite } from '../footer/FooterWhite';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useApi } from '../../api/utils/client-utils'; 
+import { Settings } from '../../api/settings/settings-module';
 
 const SettingsForm = () => {
   const [names, setNames] = useState('');
@@ -10,7 +13,17 @@ const SettingsForm = () => {
   const [corporateEmail, setCorporateEmail] = useState('');
   const [email, setEmail] = useState('');
   const [companySector, setCompanySector] = useState('');
-  const [password, setPassword] = useState('');
+
+  const getEmployeeProfile = useApi(Settings.api.getEmployeeProfile);
+
+  useEffect(async () => {
+    getEmployeeProfile.call();
+  }, [])
+
+  if (getEmployeeProfile.res) {
+    console.log({res: getEmployeeProfile.res})
+  }
+
   return (
     <div>
       <div className="form-control pt-4">
@@ -31,10 +44,6 @@ const SettingsForm = () => {
 
       <div className="form-control pt-4">  
         <input type="text" onChange={(e) => setCompanySector(e.target.value)} value={companySector} placeholder="Area de la empresa" className="input input-bordered" />
-      </div>
-
-      <div className="form-control pt-4">
-        <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} placeholder="Contrasena" className="input input-bordered" />
       </div>
       <div className="form-control">
         <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary mt-4">Guardar cambios</button>
@@ -67,14 +76,18 @@ const PasswordChangeForm = () => {
   )
 }
 
-export const Settings = () => (
-  <div className="h-max">
+export const SettingsPage = () => {
+  const { address, isConnected } = useAccount();
+  
+  if (address) {
+    
+  }
+  return (
+    <div className="h-max">
     <Titlebar />
-    <div className="container mx-auto px-3">
-      <Navbar title="AJUSTES"
+    <Navbar title="AJUSTES"
         showBackButton={true}
         /> 
-    </div>
     <div className="container px-2">
       <article className="prose prose-xl pl-2 ">
         <p className="font-bold">Tu billetera WEB3</p>
@@ -99,4 +112,5 @@ export const Settings = () => (
     </div>
     <FooterWhite />
   </div>
-);
+  )
+};

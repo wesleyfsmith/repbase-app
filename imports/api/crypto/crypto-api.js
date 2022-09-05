@@ -1,7 +1,7 @@
 import { Users } from '../users/users-module';
 import { registerMethods } from '../utils/register-methods';
 
-export const api = registerMethods('exchange', {
+export const api = registerMethods('crypto', {
   getReptokensForUser(userId) {
     if (Users.secure.userId(this) !== userId) {
       throw new Meteor.Error('invalid access');
@@ -18,6 +18,11 @@ export const api = registerMethods('exchange', {
     } else {
       return user.polygon_wallet_address;
     }
+  },
+  setUserWalletAddress(address) {
+    const userId = Users.secure.userId(this);
+    //TODO some sort of validation for this step
+    Users.db.update({$set: {polygon_wallet_address: address}});
   }
 
 });

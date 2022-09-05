@@ -2,7 +2,7 @@ import React from 'react';
 import { Titlebar } from '../components/Titlebar';
 import { Navbar } from '../components/Navbar';
 import { TokenBalance } from '../reptokens/TokenBalance';
-import { ArrowCircleDownIcon } from '@heroicons/react/outline'
+import { Link } from 'react-router-dom';
 
 const ExchangeRate = () => (
   <div className="bg-neutral rounded-lg mx-4 p-1.5">
@@ -34,16 +34,50 @@ const ExchangeRate = () => (
 );
 
 const TokenPriceSection = ({tokenName, rateCop, rateUsd}) => {
-  return (
-    <div className="bg-accent rounded-lg p-1 flex">
-        <div className='w-1/2 flex flex-col justify-center pl-1'>
-          <span className="badge badge-primary p-4">
+  let tokenElement = null;
+
+  
+  if (tokenName === 'none' && !window.criptoSelected) {
+    tokenElement = (
+      <Link to="/exchange/tokenselect">
+        <span className="badge badge-neutral p-4">
+            <article className="prose prose-xl text-white flex justify-end w-full">
+            Seleccionar cripto
+              </article>
+            </span>
+      </Link>
+    )
+  } 
+
+  if (window.criptoSelected) {
+    tokenElement = (
+      <Link to="/exchange/tokenselect">
+        <span className="badge badge-neutral p-4">
+            <article className="prose prose-xl text-white flex justify-end w-full">
+              {window.criptoSelected.toUpperCase()}
+              </article>
+            </span>
+      </Link>
+    )
+  }
+  
+  if (tokenName === 'RepTokens') {
+    tokenElement = (
+      <span className="badge badge-primary p-4">
             <article className="prose prose-xl text-white flex justify-end w-full">
               <p>
                 {tokenName}
               </p>
               </article>
             </span>
+    )
+  };
+
+
+  return (
+    <div className="bg-accent rounded-lg p-1 flex">
+        <div className='w-1/2 flex flex-col justify-center pl-1'>
+          {tokenElement}
         </div>
         <div className='w-1/2 text-white pr-2'>
           <article className="prose prose-xl text-white flex justify-end w-full">
@@ -79,7 +113,7 @@ const ExchangeSelector = () => {
       <div className="flex justify-center">
         <DownArrow />
       </div>
-      <TokenPriceSection tokenName="RepTokens" rateCop={'1,14'} rateUsd={'0,15'} />
+      <TokenPriceSection tokenName="none" rateCop={'1,14'} rateUsd={'0,15'} />
       <div className="flex">
         <div className="w-24 p-3">
           <InfoIcon />
@@ -91,7 +125,7 @@ const ExchangeSelector = () => {
         </div>
       </div>
       <div className="form-control">
-        <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary">Redimir</button>
+        <button className="btn btn-primary btn-disabled bg-gray-100" >Redimir</button>
       </div>
     </div>
   )
@@ -104,7 +138,7 @@ export const ExchangeStart = () => (
       <Navbar showBackButton title="Usar Tokens" />
     </div>
     <div className="px-4">
-      <TokenBalance  />
+      <TokenBalance hideButton={true}  />
     </div>
     <div className="px-4">
       <article className="prose prose-xl my-4">

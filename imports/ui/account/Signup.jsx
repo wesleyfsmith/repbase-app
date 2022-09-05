@@ -3,6 +3,7 @@ import { Users } from '/imports/api/users/users-module';
 import { useApi } from '/imports/api/utils/client-utils';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { FooterBlack } from '../footer/FooterBlack';
 import SimpleSchema from "simpl-schema";
 
 const ErrorBadge = () => (
@@ -78,13 +79,15 @@ export const Signup = () => {
       setConfirmPasswordError(true)
     }
     if (!namesError && !lastNamesError && !corporateEmailError && !emailError && !companySectorError && !passwordError && !confirmPasswordError) {
+      userEmployeeParameters.account_type = "employee";
       await createAccountWithPassword.call({ email, password, profile: userEmployeeParameters});
       navigate('/dashboard');
     }
   }
 
   return (
-  <div className="h-full bg-neutral">
+    <div className="h-full">
+          <div className="bg-neutral h-full">
     <article className="prose prose-xl mx-auto">
       <p className="text-center pt-8 pb-0 mb-0 text-primary font-montserrat">Bienvenido a</p>
       <h1 className="text-center pt-0 pb-1 text-primary">Repbase</h1>
@@ -132,6 +135,8 @@ export const Signup = () => {
       <p className="text-center pt-4 text-white">¿Ya te registraste? <Link to="/login" className="text-primary">Ingresa aquí.</Link></p>
     
     </div>
-
+    <FooterBlack />
   </div>
+    </div>
+
 )};

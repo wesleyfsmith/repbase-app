@@ -1,6 +1,8 @@
 import React from 'react';
 import { Titlebar } from '../components/Titlebar';
 import { Navbar } from '../components/Navbar';
+import { useNavigate } from "react-router-dom";
+
 
 const BitcoinIcon = () => (
   <div className="w-24 px-4">
@@ -38,7 +40,7 @@ const USDCIcon = () => (
   </div>
 );
 
-const TokenDetails = ({name, rate, info, icon}) => (
+const TokenDetails = ({name, rate, info, icon, clickHandler}) => (
   <div className="bg-accent rounded-lg mx-4 p-1.5 mb-4">
     <div className="bg-neutral rounded-lg p-3">
       <div className="flex">
@@ -63,29 +65,38 @@ const TokenDetails = ({name, rate, info, icon}) => (
       </div>
     </div>
     <div className="form-control pt-2">
-      <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary">Seleccionar</button>
+      <button onClick={clickHandler} className="btn btn-primary">Seleccionar</button>
     </div>
   </div>
 );
 
-export const TokenSelect = () => (
-  <div className="h-max">
+export const TokenSelect = () => {
+  const navigate = useNavigate();
+  const selectToken = (tokenName) => {
+    //cheating because I'm lazy and idk how to do this with react router
+    window.criptoSelected = tokenName;
+    navigate(-1);
+  }
+  return (
+    <div className="h-max">
     <Titlebar />
     <div className="container mx-auto px-3">
       <Navbar showBackButton title="Elegir Token" />
     </div>
-    <TokenDetails name={`Wrapped Bitcoin`} rate={`wBTC 1 ~ USD$ 21.025,15`}
+    <TokenDetails name={`Wrapped Bitcoin`} rate={`wBTC 1 ~ USD$ 21.025,15`} clickHandler={() => selectToken('Wrapped Bitcoin')}
       icon={<BitcoinIcon/>}
       info={`Es un espejo en el blockchain de Ethereum de la primera y más popular criptomoneda del mundo: Bitcoin. Este token no es Bitcoin en sí, pero refleja su valor exacto en tiempo real. A diferencia del Bitcoin normal, puedes usarlo en contratos inteligentes.`}
     />
-    <TokenDetails name={`Ethereum`} rate={`wBTC 1 ~ USD$ 21.025,15`}
+    <TokenDetails name={`Ethereum`} rate={`wBTC 1 ~ USD$ 21.025,15`} clickHandler={() => selectToken('Ethereum')}
       icon={<EthereumIcon/>}
       info={`La segunda moneda más popular del mundo llegó a esta posición por su flexibilidad y utilidad en aplicaciones decentralizadas como juegos y exchanges de cripto descentralizados. Muy útil para quienes quieren experimentar en el mundo de web3.`}
     />
-    <TokenDetails name={`USD Coin`} rate={`1USDC=USD$1`}
+    <TokenDetails name={`USD Coin`} rate={`1USDC=USD$1`} clickHandler={() => selectToken('USD Coin')}
       icon={<USDCIcon/>}
       info={`Es una de las llamadas ‘monedas estables’. Llevan este nombre porque el valor de un token de USDC siempre será de un dólar estadounidense ya que cada dólar en el blockchain está respaldado por uno en un banco tradicional en Estados Unidos.`}
     />
-    
   </div>    
-); 
+  )
+}
+  
+

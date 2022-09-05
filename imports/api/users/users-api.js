@@ -9,7 +9,8 @@ import { sendEmail } from '../utils/send-email';
 // that are different from other types of collections
 export const api = {
   loginWithPassword: {
-    call(args, callback) {
+    async call(args, callback) {
+      console.log(args);
       Meteor.loginWithPassword(args.email, args.password, callback);
     },
   },
@@ -47,14 +48,19 @@ export const api = {
 
 if (Meteor.isServer) {
   Accounts.onCreateUser((options, user) => {
-    
-    if (user.profile) {
+
+    console.log(options.profile)
+    if (options.profile.account_type === 'employee') {
       user.employee_profile = {
         names: options.profile.names,
         last_names: options.profile.last_names,
         company_email: options.profile.company_email,
         company_sector: options.profile.company_sector
       }
+    }
+
+    if (options.profile.account_type === 'manager') {
+      
     }
       
       //TODO verify both addresses? 

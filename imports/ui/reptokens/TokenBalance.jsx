@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react';
-import { Exchange } from '../../api/exchange/exchange-module';
+import { Crypto } from '../../api/crypto/crypto-module';
 import { useApi } from '/imports/api/utils/client-utils'
 import { Link } from 'react-router-dom';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { shortenAddress } from '../../utils/crypto-client-helpers';
 
 const NoReptokens = () => (
   <div className="h-full">
@@ -19,26 +21,38 @@ const NoReptokens = () => (
       </div>
 )
 
-export const TokenBalance = () => {
-  const getUserTokenBalance = useApi(Exchange.api.getReptokensForUser);
-  const getUserWalletAddress = useApi(Exchange.api.getWalletAddressForUser);
+export const TokenBalanceOnly = ({balance, address}) => {
+  return (
+    <article className="prose prose-xl mx-auto">
+          <p className="font-bold">Tus RepTokens:</p>
+          <h2 className="text-center pt-0 mt-0">{balance}</h2>
+          <p className="text-center pt-0 mt-0">{`En la billetera ${shortenAddress(address)}`}</p>
+        </article>
+  )
+}
+
+export const TokenBalance = ({hideButton}) => {
+  const getUserTokenBalance = useApi(Crypto.api.getReptokensForUser);
+  const getUserWalletAddress = useApi(Crypto.api.getWalletAddressForUser);
+  const { address, isConnected } = useAccount();
 
   useEffect(async () => {
     await getUserTokenBalance.call(Meteor.userId());
     await getUserWalletAddress.call(Meteor.userId());
   }, []);
-  console.log({res: getUserWalletAddress.res});
+  console.log({address})
 
-  if (getUserWalletAddress.res !== 'no_wallet') {
+  if (address) {
     return (
       <div className="h-full">
-        <article className="prose prose-xl mx-auto">
-          <p className="font-bold">Tus RepTokens:</p>
-          <h2 className="text-center pt-0 mt-0">{getUserTokenBalance.res}</h2>
-          <p className="text-center pt-0 mt-0">{`En la billetera ${getUserWalletAddress.res}`}</p>
-        </article>
+        <TokenBalanceOnly balance={getUserTokenBalance.res} address={address} />
         <div className="form-control">
-          <button className="btn btn-primary mt-4">Usar Tokens</button>
+          {!hideButton && 
+            <Link to="/exchange">
+              <button className="btn btn-primary mt-4 w-full">Usar Tokens</button>
+            </Link>
+          }
+          
         </div>
       </div>)
   } else {
