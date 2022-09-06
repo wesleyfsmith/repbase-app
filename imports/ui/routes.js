@@ -21,20 +21,22 @@ import {chains, wagmiClient} from '/imports/utils/wallet-client-utils';
 import { Signup } from './account/Signup'
 import { Login } from './account/Login'
 import { SettingsPage } from './settings/Settings'
-import { Dashboard } from './dashboard/Dashboard'
-import { KpiAttestation } from './attestations/KpiAttestation'
-import { ExchangeStart } from './exchange/ExchangeStart'
-import { TokenSelect } from './exchange/TokenSelect'
-import { ConfirmTransaction } from './exchange/ConfirmTransaction'
-import { TransactionReceipt } from './exchange/TransactionReceipt'
-import { PasswordReset } from './account/PasswordReset'
-import { AttestationsCount } from './attestations/AttestationsCount';
+import { Dashboard } from './employee/dashboard/Dashboard'
+import { KpiAttestation } from './employee/attestations/KpiAttestation'
+import { ExchangeStart } from './employee/exchange/ExchangeStart'
+import { TokenSelect } from './employee/exchange/TokenSelect'
+import { ConfirmTransaction } from './employee/exchange/ConfirmTransaction'
+import { TransactionReceipt } from './employee/exchange/TransactionReceipt'
+import { PasswordReset } from './employee/account/PasswordReset'
+import { AttestationsCount } from './employee/attestations/AttestationsCount';
 import { Titlebar } from './components/Titlebar';
+
+// max-w-3xl drop-shadow-lg 
 
 Meteor.startup(() => {
   render(
     <div className="">
-      <div className="mx-auto max-w-3xl drop-shadow-lg bg-white h-full">
+      <div className="mx-auto bg-white h-full">
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider chains={chains}>
             <BrowserRouter>
@@ -50,6 +52,8 @@ Meteor.startup(() => {
                 <Route path="/exchange/confirmtx" element={<ConfirmTransaction/>} />
                 <Route path="/attestationscount" element={<AttestationsCount/>} />
                 <Route path="/passwordreset" element={<PasswordReset/>} />
+
+                
               </Routes>
             </BrowserRouter>
             </RainbowKitProvider>
