@@ -7,6 +7,7 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { useApi } from '../../api/utils/client-utils'; 
 import { Settings } from '../../api/settings/settings-module';
 import { Users } from '../../api/users/users-module';
+import { PasswordChangeForm } from './PasswordChangeForm';
 
 //fuck this component lol
 const SettingsForm = () => {
@@ -140,47 +141,22 @@ const SettingsForm = () => {
   )
 }
 
-const PasswordChangeForm = () => {
-  const [password, setPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  return (
-    <div>
-      <div className="form-control pt-4">
-        <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} placeholder="Contraseña actual" className="input input-bordered" />
-      </div>
 
-      <div className="form-control pt-4">
-        <input type="password" onChange={(e) => setNewPassword(e.target.value)} value={newPassword} placeholder="Nueva contraseña" className="input input-bordered" />
-      </div>
-
-      <div className="form-control pt-4">
-        <input type="password" onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} placeholder="Confirme contrasena" className="input input-bordered" />
-      </div>
-      <div className="form-control">
-        <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary mt-4">Guardar cambios</button>
-      </div>
-    </div>
-  )
-}
 
 export const SettingsPage = () => {
   const { address, isConnected } = useAccount();
   
-  if (address) {
-    
-  }
   return (
     <div className="h-max">
     <Titlebar />
     <Navbar title="AJUSTES"
         showBackButton={true}
         /> 
-    <div className="container px-2">
-      <article className="prose prose-xl pl-2 ">
+    <div className="px-4">
+      <article className="prose prose-xl">
         <p className="font-bold">Tu billetera WEB3</p>
       </article>
-      <article className="prose pl-2 ">
+      <article className="prose ">
         <p>No has conectado una billetera web3 (ej. Metamask) a Repbase.</p> 
         <p>Esta es necesario para que puedas usar tus RepTokens y registrar tus logros en el blockchain.</p>
       </article>

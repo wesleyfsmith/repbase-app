@@ -37,14 +37,13 @@ Meteor.startup(() => {
       <div className="mx-auto max-w-3xl drop-shadow-lg bg-white h-full">
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider chains={chains}>
-            
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Signup />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/settings" element={<SettingsPage />} />
-                <Route path="/attestation" element={<KpiAttestation />} />
+                <Route path="/attestation/:rewardType" element={<KpiAttestation />} />
                 <Route path="/exchange" element={<ExchangeStart/>} />
                 <Route path="/exchange/tokenselect" element={<TokenSelect/>} />
                 <Route path="/exchange/txreceipt" element={<TransactionReceipt/>} />

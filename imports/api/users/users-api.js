@@ -17,19 +17,12 @@ export const api = {
   createUserWithPassword: {
     async call(args, callback) {
       const user = Accounts.createUser(args, callback);
-      // if (Meteor.isServer) {
-      //   await sendEmail(
-      //     'verify_email',
-      //     args.email,
-      //     {
-      //       verify_email_link: `${Meteor.absoluteUrl()}/verify/${user.id}`,
-      //     },
-      //   );
-      // }
     },
   },
-  loginWithFacebook: {
-
+  changePassword: {
+    async call(args, callback) {
+      Accounts.changePassword(args.oldPassword, args.newPassword, callback);
+    }
   },
   loginWithGoogle: {
     call() {

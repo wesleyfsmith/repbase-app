@@ -1,12 +1,9 @@
-import React from 'react';
-
-export const KpiPlatino = () => (
-  <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_637_4706" maskUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_637_4706" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
 <circle cx="36" cy="36" r="36" fill="#D9D9D9"/>
 </mask>
 <g mask="url(#mask0_637_4706)">
-<circle cx="36" cy="36" r="34" fill="#D9D9D9" stroke="#18A0FB" strokeWidth="2"/>
+<circle cx="36" cy="36" r="34" fill="#D9D9D9" stroke="#18A0FB" stroke-width="2"/>
 <path d="M30.427 16.0003H31.487L39.547 15.9203H42.207L34.487 2.03027C30.2547 2.11704 26.076 2.99551 22.167 4.62027L29.257 16.0403L30.427 16.0003Z" fill="#18A0FB"/>
 <path d="M35.7167 59.4701C46.8066 59.4701 55.7967 50.4799 55.7967 39.3901C55.7967 28.3002 46.8066 19.3101 35.7167 19.3101C24.6268 19.3101 15.6367 28.3002 15.6367 39.3901C15.6367 50.4799 24.6268 59.4701 35.7167 59.4701Z" fill="#6B7679"/>
 <path d="M36.3566 58.03C47.0598 58.03 55.7366 49.3533 55.7366 38.65C55.7366 27.9467 47.0598 19.27 36.3566 19.27C25.6533 19.27 16.9766 27.9467 16.9766 38.65C16.9766 49.3533 25.6533 58.03 36.3566 58.03Z" fill="#B7BAC2"/>
@@ -40,6 +37,3 @@ export const KpiPlatino = () => (
 <path d="M38.7869 2.17029L37.6169 2.07031L36.127 4.95029L36.7369 6.05029L38.7869 2.17029Z" fill="white"/>
 </g>
 </svg>
-
-  
-)
