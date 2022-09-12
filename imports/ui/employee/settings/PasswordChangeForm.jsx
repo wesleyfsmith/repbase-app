@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { Users } from '../../api/users/users-module';
-import { useApi } from '../../api/utils/client-utils'; 
+import { Users } from '../../../api/users/users-module';
+import { useApi } from '../../../api/utils/client-utils'; 
 
 export const PasswordChangeForm = () => {
   const [password, setPassword] = useState('');

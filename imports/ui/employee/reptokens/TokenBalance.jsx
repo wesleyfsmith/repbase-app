@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import { Crypto } from '../../api/crypto/crypto-module';
+import { Crypto } from '../../../api/crypto/crypto-module';
 import { useApi } from '/imports/api/utils/client-utils'
 import { Link } from 'react-router-dom';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import { shortenAddress } from '../../utils/crypto-client-helpers';
+import { shortenAddress } from '../../../utils/crypto-client-helpers';
 
 const NoReptokens = () => (
   <div className="h-full">

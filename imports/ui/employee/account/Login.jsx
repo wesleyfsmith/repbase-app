@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { Users } from '/imports/api/users/users-module';
 import { useApi } from '/imports/api/utils/client-utils';
-import { ExclamationTriange } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { FooterBlack } from '../footer/FooterBlack';

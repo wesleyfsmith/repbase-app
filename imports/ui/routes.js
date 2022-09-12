@@ -18,9 +18,9 @@ import {
 import {chains, wagmiClient} from '/imports/utils/wallet-client-utils';
 // import your route components too
 
-import { Signup } from './account/Signup'
-import { Login } from './account/Login'
-import { SettingsPage } from './settings/Settings'
+import { Signup } from './employee/account/Signup'
+import { Login } from './employee/account/Login'
+import { SettingsPage } from './employee/settings/Settings'
 import { Dashboard } from './employee/dashboard/Dashboard'
 import { KpiAttestation } from './employee/attestations/KpiAttestation'
 import { ExchangeStart } from './employee/exchange/ExchangeStart'
@@ -29,7 +29,8 @@ import { ConfirmTransaction } from './employee/exchange/ConfirmTransaction'
 import { TransactionReceipt } from './employee/exchange/TransactionReceipt'
 import { PasswordReset } from './employee/account/PasswordReset'
 import { AttestationsCount } from './employee/attestations/AttestationsCount';
-import { Titlebar } from './components/Titlebar';
+import { Sidebar } from './empresa/Sidebar'
+import { LandingPage } from './LandingPage'
 
 // max-w-3xl drop-shadow-lg 
 
@@ -41,7 +42,8 @@ Meteor.startup(() => {
           <RainbowKitProvider chains={chains}>
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Signup />}/>
+                <Route path="/" element={<LandingPage />}/>
+                <Route path="/signup" element={<Signup />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/settings" element={<SettingsPage />} />
@@ -52,6 +54,8 @@ Meteor.startup(() => {
                 <Route path="/exchange/confirmtx" element={<ConfirmTransaction/>} />
                 <Route path="/attestationscount" element={<AttestationsCount/>} />
                 <Route path="/passwordreset" element={<PasswordReset/>} />
+                <Route path="/sidebar" element={<Sidebar/>} />
+                <Route path="/signup" element={<Signup/>} />
 
                 
               </Routes>

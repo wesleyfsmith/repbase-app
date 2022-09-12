@@ -4,9 +4,9 @@ import React, {useState, useEffect} from 'react';
 import { FooterWhite } from '../footer/FooterWhite';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
-import { useApi } from '../../api/utils/client-utils'; 
-import { Settings } from '../../api/settings/settings-module';
-import { Users } from '../../api/users/users-module';
+import { useApi } from '../../../api/utils/client-utils'; 
+import { Settings } from '../../../api/settings/settings-module';
+import { Users } from '../../../api/users/users-module';
 import { PasswordChangeForm } from './PasswordChangeForm';
 
 //fuck this component lol
