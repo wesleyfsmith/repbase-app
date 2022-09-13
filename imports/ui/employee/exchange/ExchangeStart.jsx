@@ -42,7 +42,7 @@ const TokenPriceSection = ({tokenName, rateCop, rateUsd}) => {
       <Link to="/exchange/tokenselect">
         <span className="badge badge-neutral p-4">
             <article className="prose prose-xl text-white flex justify-end w-full">
-            Seleccionar cripto
+            Seleccionar
               </article>
             </span>
       </Link>

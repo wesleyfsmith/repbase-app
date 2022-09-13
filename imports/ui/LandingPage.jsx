@@ -11,7 +11,7 @@ const Titlebar = () => (
         Repbase
       </article>
       <div className="flex pr-8">
-        <a className="w-full mx-2 my-auto" href="rebase_whitepaper_v1.pdf" download>
+        <a className="w-full mx-2 my-auto" href={`${Meteor.absoluteUrl()}/repbase_whitepaper_v1.pdf`} download>
           <article className="prose text-white ">
             Whitepaper
           </article>
@@ -55,7 +55,7 @@ export const LandingPage = () => {
           {`We bring together employers and employees to create unique, non-transferable, reliable, user-owned professional reputation profiles that are stored on the blockchain.`}
         </article>
         <div className="form-control">
-          <a className="w-full" href="rebase_whitepaper_v1.pdf" download>
+          <a className="w-full" href={`${Meteor.absoluteUrl()}/repbase_whitepaper_v1.pdf`} download>
             <button className="btn btn-primary mt-4 w-full">Read Whitepaper</button>
           </a>
         </div>

@@ -7,9 +7,9 @@ import { Meteor } from 'meteor/meteor';
 if (Meteor.isServer) {
   const sgMail = require('@sendgrid/mail');
 
-  if (Meteor.isProduction) {
-    sgMail.setApiKey(Meteor.settings.sendgrid.apiKey);
-  }
+  // if (Meteor.isProduction) {
+  //   sgMail.setApiKey(Meteor.settings.sendgrid.apiKey);
+  // }
 
   const templates = {
     subscribe_confirmation: 'd-2d43ffcf2663439aac6bf12d8fa31911',
