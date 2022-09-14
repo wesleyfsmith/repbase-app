@@ -58,7 +58,7 @@ export const Login = () => {
       <div className="form-control">
         <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary mt-4">Ingresa</button>
       </div>
-      <p className="text-center pt-4 text-white">¿No te has registraste? <Link to="/" className="text-primary">Registrate aquí.</Link></p>
+      <p className="text-center pt-4 text-white">¿No te has registraste? <Link to="/signup" className="text-primary">Registrate aquí.</Link></p>
       <MetamaskAlert />
     </div>
     <FooterBlack/>

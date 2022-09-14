@@ -37,7 +37,7 @@ export const PasswordReset = () => {
         <button onClick={(e) => clickRegisterButton(e)} className="btn btn-outline btn-primary mt-4">Regístrate</button>
       </div>
       <article className="prose prose-sm text-white">
-        Si sigues teniendo problemas escríbenos un correo a <Link to="/" className="text-primary">SOPORTE@REPBASE.XYZ</Link>
+        Si sigues teniendo problemas escríbenos un correo a <Link to="/signup" className="text-primary">SOPORTE@REPBASE.XYZ</Link>
       </article>
     </div>
 

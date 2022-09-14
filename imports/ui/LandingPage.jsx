@@ -11,7 +11,7 @@ const Titlebar = () => (
         Repbase
       </article>
       <div className="flex pr-8">
-        <a className="w-full mx-2 my-auto" href={`${Meteor.absoluteUrl()}/repbase_whitepaper_v1.pdf`} download>
+        <a className="w-full mx-2 my-auto" href={`${Meteor.absoluteUrl()}repbase_whitepaper_v1.pdf`} download>
           <article className="prose text-white ">
             Whitepaper
           </article>
@@ -46,8 +46,8 @@ export const LandingPage = () => {
   return (
   <div className="h-screen from-primary to-neutral bg-gradient-to-br">
     <Titlebar />
-    <div className="max-w-4xl flex mx-auto ">
-      <div className="w-1/2 my-auto">
+    <div className="max-w-4xl md:flex mx-auto p-8 ">
+      <div className="md:w-1/2 sm:w-full my-auto">
         <article className="prose text-2xl font-bold text-white text-center mb-4">
           {`The Decentralized Professional Reputation Network`}
         </article>
@@ -55,12 +55,12 @@ export const LandingPage = () => {
           {`We bring together employers and employees to create unique, non-transferable, reliable, user-owned professional reputation profiles that are stored on the blockchain.`}
         </article>
         <div className="form-control">
-          <a className="w-full" href={`${Meteor.absoluteUrl()}/repbase_whitepaper_v1.pdf`} download>
+          <a className="w-full" href={`${Meteor.absoluteUrl()}repbase_whitepaper_v1.pdf`} download>
             <button className="btn btn-primary mt-4 w-full">Read Whitepaper</button>
           </a>
         </div>
       </div>
-      <div className="w-1/2 mt-8">
+      <div className="md:w-1/2 sm:w-full mt-8">
         <img className="w-64 mx-auto" src="phone.png"></img>
       </div>
       
