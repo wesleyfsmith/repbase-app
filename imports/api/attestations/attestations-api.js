@@ -5,7 +5,8 @@ import { Users } from '../users/users-module';
 export const api = registerMethods('attestations', {
   create(attestation) {
     //TODO check user has correct role to make attestation
-    attestation.created_by_id = Users.secure.userId();
+    //TODO create 3x attestation automatically
+    attestation.issuer_id = Users.secure.userId(this);
     return Attestations.db.insert(attestation);
   },
   update() {

@@ -19,7 +19,7 @@ export const employeeProfileSchema = new SimpleSchema({
   },
   company_sector: {
     type: String,
-    fixture: () => "business"
+    fixture: () => 'business'
   }
 });
 

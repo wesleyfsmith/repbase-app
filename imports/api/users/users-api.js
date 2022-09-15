@@ -42,7 +42,6 @@ export const api = {
 if (Meteor.isServer) {
   Accounts.onCreateUser((options, user) => {
 
-    console.log(options.profile)
     if (options.profile.account_type === 'employee') {
       user.employee_profile = {
         names: options.profile.names,

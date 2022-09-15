@@ -2,11 +2,17 @@
   "name": "repbase-app",
   "private": true,
   "scripts": {
-    "dev": "meteor run",
+    "dev": "meteor run --settings settings-dev.json",
+    "lint": "eslint .",
+    "cloc": "find . -path '*.jsx' -o -path '*.js' ! -path '*node_modules*' ! -path '*.meteor*' | xargs wc -l",
+    "lint-fix": "eslint . --fix",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
     "deploy": "DEPLOY_HOSTNAME=galaxy.meteor.com meteor deploy www.repbase.xyz --settings settings-prod.json --owner hackfactory"
+  },
+  "eslintConfig": {
+    "extends": "@meteorjs/eslint-config-meteor"
   },
   "dependencies": {
     "@babel/runtime": "^7.15.4",
@@ -19,6 +25,7 @@
     "daisyui": "^2.15.1",
     "ethers": "^5.7.0",
     "meteor-node-stubs": "^1.2.1",
+    "moment": "^2.29.4",
     "nock": "^13.2.9",
     "postcss": "^8.4.12",
     "postcss-load-config": "^3.1.4",

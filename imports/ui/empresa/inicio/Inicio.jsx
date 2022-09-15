@@ -1,10 +1,12 @@
 import React from 'react';
 import { EmployeeTable } from '../EmployeeTable';
 import { LogrosTable } from '../LogrosTable';
+import { Sidebar } from '../Sidebar';
 
 export const Inicio = () => {
   return (
-    <div className="container max-w-3x1 mx-auto">
+    <Sidebar>
+      <div className="container max-w-3x1 mx-auto">
       <article className="prose prose-xl font-bold">
         TOP 10 EMPLEADOS DEL MES
       </article>
@@ -24,5 +26,6 @@ export const Inicio = () => {
         </div>
       </div>
     </div>
+    </Sidebar>
   )
 }

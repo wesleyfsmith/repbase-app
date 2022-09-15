@@ -6,6 +6,8 @@ import { generateFromSchema } from '../utils/schema-utils';
 import { Badges } from '../badges/badges-module';
 import { Attestations } from './attestations-module';
 import { Users } from '../users/users-module';
+import { Companies } from '../companies/companies-module';
+import { TimePeriods } from '../timeperiods/timeperiods-module';
 
 /* eslint-disable func-names, prefer-arrow-callback */
 
@@ -16,6 +18,10 @@ describe('Attestations', function() {
       Users.test.logoutUser();
     });
     it ('should create a new attestation with attestation type', function() {
+
+      const companyId = Companies.fixtures.generateTul();
+      const timePeriodId = TimePeriods.fixtures.generateTimePeriodStartingWeekAgo(companyId);
+
 
       const managerUser = Users.fixtures.generateManagerUser();
       const normalUser = Users.fixtures.generateNormalUser();
@@ -28,7 +34,8 @@ describe('Attestations', function() {
 
       const newAttestation = generateFromSchema(Attestations.schema);
       newAttestation.badge_id = badge._id;
-      newAttestation.owner_id = normalUser._id;
+      newAttestation.reciever_id = normalUser._id;
+      newAttestation.timeperiod_id = timePeriodId;
 
       Attestations.api.create.call(newAttestation);
       const attestation = Attestations.db.findOne();

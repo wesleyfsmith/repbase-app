@@ -5,6 +5,8 @@ import { setFakerLib } from '/imports/api/utils/optimized-faker';
 setFakerLib(faker);
 
 import './collection-utils.test';
+import '/imports/api/companies/companies-tests';
+import '/imports/api/timeperiods/timeperiods-tests';
 import '/imports/api/users/users-tests';
 import '/imports/api/badges/badges-tests';
 import '/imports/api/attestations/attestations-tests';

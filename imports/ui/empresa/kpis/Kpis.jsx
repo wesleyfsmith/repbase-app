@@ -1,9 +1,11 @@
 import React from 'react';
 import { PeriodTable } from './PeriodTable';
+import { Sidebar } from '../Sidebar';
 
 export const Kpis = () => {
   return (
-    <div className="container max-w-3x1 mx-auto">
+    <Sidebar>
+      <div className="container max-w-3x1 mx-auto">
       <article className="prose prose-xl font-bold">
         EDITAR KPIs
       </article>
@@ -20,5 +22,7 @@ export const Kpis = () => {
       </article>
       <PeriodTable />
     </div>
+    </Sidebar>
+    
   )
 }

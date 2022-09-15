@@ -1,9 +1,10 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   BrowserRouter,
   Routes,
   Route,
-} from "react-router-dom";
+} from 'react-router-dom';
 import { render } from 'react-dom';
 import {
   chain,
@@ -18,19 +19,19 @@ import {
 import {chains, wagmiClient} from '/imports/utils/wallet-client-utils';
 // import your route components too
 
-import { Signup } from './employee/account/Signup'
-import { Login } from './employee/account/Login'
-import { SettingsPage } from './employee/settings/Settings'
-import { Dashboard } from './employee/dashboard/Dashboard'
-import { KpiAttestation } from './employee/attestations/KpiAttestation'
-import { ExchangeStart } from './employee/exchange/ExchangeStart'
-import { TokenSelect } from './employee/exchange/TokenSelect'
-import { ConfirmTransaction } from './employee/exchange/ConfirmTransaction'
-import { TransactionReceipt } from './employee/exchange/TransactionReceipt'
-import { PasswordReset } from './employee/account/PasswordReset'
+import { Signup } from './employee/account/Signup';
+import { Login } from './employee/account/Login';
+import { SettingsPage } from './employee/settings/Settings';
+import { Dashboard } from './employee/dashboard/Dashboard';
+import { KpiAttestation } from './employee/attestations/KpiAttestation';
+import { ExchangeStart } from './employee/exchange/ExchangeStart';
+import { TokenSelect } from './employee/exchange/TokenSelect';
+import { ConfirmTransaction } from './employee/exchange/ConfirmTransaction';
+import { TransactionReceipt } from './employee/exchange/TransactionReceipt';
+import { PasswordReset } from './employee/account/PasswordReset';
 import { AttestationsCount } from './employee/attestations/AttestationsCount';
-import { Sidebar } from './empresa/Sidebar'
-import { LandingPage } from './LandingPage'
+import { Sidebar } from './empresa/Sidebar';
+import { LandingPage } from './LandingPage';
 import { Inicio } from './empresa/inicio/Inicio';
 import { Kpis } from './empresa/kpis/Kpis';
 import { TimePeriodPage } from './empresa/kpis/TimePeriodPage';
@@ -68,12 +69,12 @@ Meteor.startup(() => {
                 <Route path="/empresa/logros" element={<Logros />} />
               </Routes>
             </BrowserRouter>
-            </RainbowKitProvider>
+          </RainbowKitProvider>
         </WagmiConfig>
-    </div>
+      </div>
     </div>
     
-  , document.getElementById('react-target'));  
+    , document.getElementById('react-target'));  
 });
 
 
