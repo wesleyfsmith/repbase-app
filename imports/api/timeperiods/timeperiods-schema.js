@@ -8,7 +8,7 @@ export const schema = new SimpleSchema({
     type: Date,
   },
   end_date: {
-    type: String,
+    type: Date,
     optional: true
   },
   instance: {

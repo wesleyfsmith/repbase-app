@@ -1,6 +1,20 @@
 import React from 'react';
 
-export const EmployeeTable = () => {
+export const EmployeeTable = ({employees}) => {
+  console.log({employees});
+  
+  const rows = [];
+  for (let i = 0; i < employees.length; i++) {
+    const employee = employees[i];
+    rows.push(<tr>
+      <th>{`${i}`}</th>
+      <td>{employee.employee_profile.names}</td>
+      <td>{employee.employee_profile.company_email}</td>
+      <td>{employee.employee_profile.company_sector}</td>
+      <td>{employee.attestationCount}</td>
+    </tr>);
+  }
+
   return (
     <div className="overflow-x-auto drop-shadow-md">
       <table className="table w-full ">
@@ -14,27 +28,7 @@ export const EmployeeTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-            <td>Red</td>
-          </tr>
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-            <td>Red</td>
-          </tr>
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-            <td>Red</td>
-          </tr>
+          {rows}
         </tbody>
       </table>
     </div>

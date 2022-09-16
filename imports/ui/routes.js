@@ -43,7 +43,7 @@ import { Logros } from './empresa/logros/Logros';
 Meteor.startup(() => {
   render(
     <div className="">
-      <div className="mx-auto bg-white h-full">
+      <div className="mx-auto bg-white">
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider chains={chains}>
             <BrowserRouter>

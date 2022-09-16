@@ -14,17 +14,17 @@ export const Sidebar = ({children}) => {
   const logrosSelected = location.pathname.includes('logros') ? ' bg-primary text-white ' : ' ';
   const ajustesSelected = location.pathname.includes('ajustes') ? ' bg-primary text-white ' : ' ';
   return (
-    <div className="h-full">
+    <div className="h-screen">
       <Titlebar />
-      <div className="drawer drawer-mobile">
+      <div className="drawer drawer-mobile h-fit" >
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content border border-l flex flex-col items-center justify-center px-4">
-          {children}
+        <div className="drawer-content border border-l p-16">
           <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
-  
+          
+          {children}
+
         </div> 
-        <div></div>
-        <div className="drawer-side dropshadow-lg ">
+        <div className="drawer-side dropshadow-lg" style={{height: '100% !important'}}>
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
           <div className="h-1">
             <div className="flex justify-center mt-8">

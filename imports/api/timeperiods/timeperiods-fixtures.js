@@ -12,11 +12,15 @@ export const fixtures = {
   },
   generateTenTimePeriodsFromNow(companyId) {
     for (let i = 10; i >= 1; i--) {
-      TimePeriods.db.insert({
+      const timeperiod = {
         start_date: moment().subtract(14 * i, 'days').calendar(),
         instance: TimePeriods.db.find().count(),
         company_id: companyId
-      });
+      };
+      if (i !== 1) {
+        timeperiod.end_date = moment().subtract(14 * (i - 1), 'days').calendar();
+      }
+      TimePeriods.db.insert(timeperiod);
     }
   }
 };

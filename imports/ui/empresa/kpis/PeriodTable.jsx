@@ -1,6 +1,18 @@
 import React from 'react';
 
-export const PeriodTable = () => {
+export const PeriodTable = ({timeperiods}) => {
+  const rows = [];
+  for (let i = 0; i < timeperiods.length; i++) {
+    const timeperiod = timeperiods[i];
+    const endDateString = timeperiod.end_date === 'N/A' ? 'N/A' : timeperiod.end_date.toDateString();
+    rows.push(<tr>
+      <th>{`${i}`}</th>
+      <td>{`${timeperiod.start_date.toDateString()} - ${endDateString}`}</td>
+      <td>{timeperiod.attestationCount}</td>
+      <td>{100}</td>
+      <td>{'Details'}</td>
+    </tr>);
+  }
   return (
     <div className="overflow-x-auto drop-shadow-lg">
       <table className="table w-full ">
@@ -14,27 +26,7 @@ export const PeriodTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-            <td>Red</td>
-          </tr>
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-            <td>Red</td>
-          </tr>
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-            <td>Red</td>
-          </tr>
+          {rows}
         </tbody>
       </table>
     </div>
