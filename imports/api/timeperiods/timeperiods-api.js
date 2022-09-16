@@ -16,6 +16,10 @@ export const api = registerMethods('timeperiods', {
       });
     });
     return results;
+  },
+  getMostRecentPeriod() {
+    const timePeriods = TimePeriods.db.find({}, {sort: {instance: 1}}).fetch();
+    return timePeriods[0];
   }
 
 });

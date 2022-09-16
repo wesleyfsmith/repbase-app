@@ -1,6 +1,7 @@
 import { registerMethods } from '../utils/register-methods';
 import { Attestations } from './attestations-module';
 import { Users } from '../users/users-module';
+import { Badges } from '../badges/badges-module';
 
 export const api = registerMethods('attestations', {
   create(attestation) {
@@ -14,6 +15,19 @@ export const api = registerMethods('attestations', {
   },
   read(_id) {
     return Attestations.db.findOne(_id);
-  }
+  },
+  getAttestationCounts() {
+    const badges = Badges.db.find().fetch();
+    const results = [];
+    badges.forEach((badge) => {
+      const count = Attestations.db.find({badge_id: badge._id}).fetch().length;
+      results.push({
+        name: badge.name,
+        attestationCount: count,
+        tokens: badge.reward * count
+      });
+    });
+    return results;
+  },
 
 });
