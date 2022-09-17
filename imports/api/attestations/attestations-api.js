@@ -66,5 +66,17 @@ export const api = registerMethods('attestations', {
       if (a.attestationCount > b.attestationCount) return 1;
       if (a.attestationCount === b.attestationCount) return 0; 
     }).reverse();
+  },
+  getAttestationCountsForUser(userId) {
+    const badges = Badges.db.find().fetch();
+    const results = [];
+    badges.forEach((badge) => {
+      const count = Attestations.db.find({badge_id: badge._id, reciever_id: userId}).fetch().length;
+      results.push({
+        name: badge.name,
+        attestationCount: count,
+        tokens: badge.reward * count
+      });
+    });
   }
 });

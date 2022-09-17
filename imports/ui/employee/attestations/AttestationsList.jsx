@@ -8,6 +8,8 @@ import { KpiOro3x } from '../assets/KpiOro3x';
 import { KpiPlata3x } from '../assets/KpiPlata3x';
 import { KpiPlatino3x } from '../assets/KpiPlatino3x';
 import { Link } from 'react-router-dom';
+import { Attestations } from '../../../api/attestations/attestations-module';
+import { useApi } from '/imports/api/utils/client-utils';
 
 export const AttestationMedal = ({textColor, badgeIcon, title, grayedOut, to}) => {
   const grayscale = grayedOut ? ' grayscale(90%) ' : ' ';
@@ -25,21 +27,29 @@ export const AttestationMedal = ({textColor, badgeIcon, title, grayedOut, to}) =
   );
 };
 
-export const AttestationsList = () => (
-  <div>
-    <div className="mx-auto">
-      <div className="flex flex-row space-x-1 justify-evenly">
-        <AttestationMedal badgeIcon={<KpiBronce />} textColor={'white'} title={'KPI Bronce'} grayedOut={true}/>
-        <AttestationMedal badgeIcon={<KpiPlata/>} textColor={'white'} title={'KPI Plata'} grayedOut={true}/>
-        <AttestationMedal badgeIcon={<KpiOro/>} textColor={'white'} title={'KPI Oro'} grayedOut={true}/>
-        <AttestationMedal badgeIcon={<KpiPlatino/>} textColor={'white'} title={'KPI Platino'} grayedOut={true}/>
-      </div>
-      <div className="flex flex-row space-x-1 justify-evenly pt-2">
-        <AttestationMedal badgeIcon={<KpiBronce3x/>} textColor={'white'} title={'3X KPI\nBronce'} grayedOut={true}/>
-        <AttestationMedal badgeIcon={<KpiPlata3x/>} textColor={'white'} title={'3X KPI\nPlata'} grayedOut={true}/>
-        <AttestationMedal badgeIcon={<KpiOro3x/>} textColor={'white'} title={'3X KPI\nOro'} grayedOut={true}/>
-        <AttestationMedal badgeIcon={<KpiPlatino3x/>} textColor={'white'} title={'3X KPI\nPlatino'} grayedOut={true}/>
+export const AttestationsList = () => {
+  const getAttestationCountsForUser = useApi(Attestations.api.getAttestationCountsForUser);
+  useEffect(() => {
+    getAttestationCountsForUser.call();
+  }, []);
+  const isGrayedOut = (badgeName) => {
+    return true;
+  };
+  return (
+    <div>
+      <div className="mx-auto">
+        <div className="flex flex-row space-x-1 justify-evenly">
+          <AttestationMedal badgeIcon={<KpiBronce />} textColor={'white'} title={'KPI Bronce'} grayedOut={isGrayedOut('Bronce')}/>
+          <AttestationMedal badgeIcon={<KpiPlata/>} textColor={'white'} title={'KPI Plata'} grayedOut={isGrayedOut('Oro')}/>
+          <AttestationMedal badgeIcon={<KpiOro/>} textColor={'white'} title={'KPI Oro'} grayedOut={isGrayedOut('Plata')}/>
+          <AttestationMedal badgeIcon={<KpiPlatino/>} textColor={'white'} title={'KPI Platino'} grayedOut={isGrayedOut('Platino')}/>
+        </div>
+        <div className="flex flex-row space-x-1 justify-evenly pt-2">
+          <AttestationMedal badgeIcon={<KpiBronce3x/>} textColor={'white'} title={'3X KPI\nBronce'} grayedOut={isGrayedOut('Bronce 3X')}/>
+          <AttestationMedal badgeIcon={<KpiPlata3x/>} textColor={'white'} title={'3X KPI\nPlata'} grayedOut={isGrayedOut('Bronce 3X')}/>
+          <AttestationMedal badgeIcon={<KpiOro3x/>} textColor={'white'} title={'3X KPI\nOro'} grayedOut={isGrayedOut('Bronce 3X')}/>
+          <AttestationMedal badgeIcon={<KpiPlatino3x/>} textColor={'white'} title={'3X KPI\nPlatino'} grayedOut={isGrayedOut('Bronce 3X')}/>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );};
