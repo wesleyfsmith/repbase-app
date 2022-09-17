@@ -33,12 +33,31 @@ const getRandomTimePeriodId = () => {
 };
 
 export const fixtures = {
-  generateRandomAttestation(managerId, userId) {
+  generateRandomAttestation(managerId, userId, timeperiodId) {
+    const kpiPercentage = getRandomInt(101);
+    const bronceBadge = Badges.db.findOne({name: 'Bronce'});
+    const plataBadge = Badges.db.findOne({name: 'Plata'});
+    const oroBadge = Badges.db.findOne({name: 'Oro'});
+    const platinoBadge = Badges.db.findOne({name: 'Platino'});
+    let badgeId = null;
+    if (kpiPercentage >= 90) {
+      badgeId = platinoBadge._id;
+    }
+    if (kpiPercentage >= 76 && kpiPercentage <= 89) {
+      badgeId = oroBadge._id;
+    }
+    if (kpiPercentage >= 60 && kpiPercentage <= 75) {
+      badgeId = plataBadge._id;
+    }
+    if (kpiPercentage < 75) {
+      badgeId = bronceBadge._id;
+    }
     const attestation = {
-      badge_id: getRandomBadgeId(),
+      badge_id: badgeId,
       issuer_id: managerId,
       reciever_id: userId,
-      timeperiod_id: getRandomTimePeriodId() 
+      timeperiod_id: timeperiodId,
+      kpi_percentage: getRandomInt(101)
     };
     Users.test.loginAsUser(managerId);
     Attestations.db.insert(attestation);

@@ -32,8 +32,16 @@ if (Users.db.find().count() === 0 && Meteor.settings.run_fixtures) {
 
   for (let i = 0; i < 30; i++) {
     const user = Users.fixtures.generateNormalUser();
+    const periods = TimePeriods.db.find().fetch();
+    for (let i = 0; i < periods.length; i++) {
+      if (getRandomInt(3) === 2) { // 1/3 change to get an attestation for a period
+        Attestations.fixtures.generateRandomAttestation(manager._id, user._id, periods[i]._id);
+      }
+    }
+
     //generate random number of attestations
     for (let i = 0; i < getRandomInt(10); i++) {
+     
       Attestations.fixtures.generateRandomAttestation(manager._id, user._id);
     }
   }

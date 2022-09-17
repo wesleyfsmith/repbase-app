@@ -103,7 +103,6 @@ const HorizontalAward = ({medal}) => (
 
 export const KpiAttestation = () => {
   let { rewardType } = useParams();
-  console.log({rewardType});
 
   //you arent supposed to mutate probs technical but it's my app and i'll do what I want
   rewardType = rewardType.toLowerCase();

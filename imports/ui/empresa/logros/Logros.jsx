@@ -11,11 +11,14 @@ export const Logros = () => {
   }, []);
   return (
     <Sidebar>
-      <div className="container max-w-3x1 mx-auto">
+      <div className="container max-w-3x1 mx-auto h-full">
         <article className="prose prose-xl font-bold">
         LOGROS
         </article>
-        <LogrosTable attestations={getAttestationCounts.res} />
+        {
+          getAttestationCounts.res &&
+          <LogrosTable attestations={getAttestationCounts.res} />
+        }
       </div>
     </Sidebar>
   );

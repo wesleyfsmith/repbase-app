@@ -1,16 +1,19 @@
 import React from 'react';
+import { EyeIcon } from '@heroicons/react/outline';
+import { Link } from 'react-router-dom';
+
 
 export const PeriodTable = ({timeperiods}) => {
   const rows = [];
   for (let i = 0; i < timeperiods.length; i++) {
     const timeperiod = timeperiods[i];
     const endDateString = timeperiod.end_date === 'N/A' ? 'N/A' : timeperiod.end_date.toDateString();
-    rows.push(<tr>
+    rows.push(<tr key={i}>
       <th>{`${i}`}</th>
       <td>{`${timeperiod.start_date.toDateString()} - ${endDateString}`}</td>
-      <td>{timeperiod.attestationCount}</td>
-      <td>{100}</td>
-      <td>{'Details'}</td>
+      <td className="text-center">{timeperiod.attestationCount}</td>
+      <td className="text-center">{100}</td>
+      <td><div className="flex justify-center"><Link to={`/empresa/kpis/timeperiod/${timeperiod._id}`}><EyeIcon className="w-6 text-primary"/></Link></div></td>
     </tr>);
   }
   return (

@@ -12,7 +12,7 @@ export const Empleados = () => {
   return (
     <Sidebar>
       {/* <Titlebar /> */}
-      <div className="container max-w-3x1 mx-auto">
+      <div className="container max-w-3x1 mx-auto h-full">
         <article className="prose prose-xl font-bold">
         EMPLEADOS
         </article>

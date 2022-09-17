@@ -37,6 +37,8 @@ import { Kpis } from './empresa/kpis/Kpis';
 import { TimePeriodPage } from './empresa/kpis/TimePeriodPage';
 import { Empleados } from './empresa/empleados/Empleados';
 import { Logros } from './empresa/logros/Logros';
+import { Ajustes } from './empresa/ajustes/Ajustes';
+import { EmpresaLogin } from './empresa/account/Login';
 
 // max-w-3xl drop-shadow-lg 
 
@@ -64,9 +66,11 @@ Meteor.startup(() => {
                 <Route path="/empresa/signup" element={<Signup/>} />
                 <Route path="/empresa/inicio" element={<Inicio />} />
                 <Route path="/empresa/kpis" element={<Kpis />} />
-                <Route path="/empresa/timeperiod" element={<TimePeriodPage />} />
+                <Route path="/empresa/kpis/timeperiod/:id" element={<TimePeriodPage />} />
                 <Route path="/empresa/empleados" element={<Empleados />} />
                 <Route path="/empresa/logros" element={<Logros />} />
+                <Route path="/empresa/ajustes" element={<Ajustes />} />
+                <Route path="/empresa/login" element={<EmpresaLogin />} />
               </Routes>
             </BrowserRouter>
           </RainbowKitProvider>

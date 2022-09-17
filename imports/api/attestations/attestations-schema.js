@@ -38,6 +38,10 @@ export const schema = new SimpleSchema({
     custom() {
       return idExistsInCollection(Companies.db, this.value);
     }
+  },
+  kpi_percentage: {
+    type: Number,
+    fixture: () => 80
   }
 });
   

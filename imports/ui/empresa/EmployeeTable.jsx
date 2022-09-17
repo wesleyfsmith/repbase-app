@@ -1,12 +1,11 @@
 import React from 'react';
 
 export const EmployeeTable = ({employees}) => {
-  console.log({employees});
   
   const rows = [];
   for (let i = 0; i < employees.length; i++) {
     const employee = employees[i];
-    rows.push(<tr>
+    rows.push(<tr key={i}>
       <th>{`${i}`}</th>
       <td>{employee.employee_profile.names}</td>
       <td>{employee.employee_profile.company_email}</td>

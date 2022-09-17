@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const KpiPlatino3x = ({width, height}) =>{
+export const PeriodArrow = ({width, height}) =>{
   if (!width || !height) {
     width = 70;
     height = 70;

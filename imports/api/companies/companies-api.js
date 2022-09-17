@@ -25,7 +25,7 @@ export const api = registerMethods('companies', {
     }
     return employees;
   },
-  getTop10Employees() {
+  getTop10Employees() { //TODO I dont think im doing this on inicio correctly
     const employees = Users.db.find({employee_profile: {$exists: true}}).fetch();
     const currentTimePeriod = TimePeriods.api.getMostRecentPeriod.call();
     for (let i = 0; i < employees.length; i++) {
@@ -38,6 +38,21 @@ export const api = registerMethods('companies', {
       if (a.attestationCount > b.attestationCount) return 1;
       if (a.attestationCount === b.attestationCount) return 0; 
     }).reverse().slice(0, 10);
+  },
+  getEmployeesKpisForPeriod(periodId) {
+    const employees = Users.db.find({employee_profile: {$exists: true}}).fetch();
+    for (let i = 0; i < employees.length; i++) {
+      //TODO optimize this query
+      const employee = employees[i];
+      const attestations = Attestations.db.find({reciever_id: employee._id, timeperiod_id: periodId}).fetch();
+      const attestation = attestations[0];
+      if (attestations.length > 0 && attestation && attestation.kpi_percentage > 0) {
+        employee.registeredKpi = attestation.kpi_percentage + '%';
+      } else {
+        employee.registeredKpi = '--';
+      }
+    }
+    return employees;
   }
 
 });
