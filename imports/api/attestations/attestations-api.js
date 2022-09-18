@@ -78,5 +78,6 @@ export const api = registerMethods('attestations', {
         tokens: badge.reward * count
       });
     });
+    return results;
   }
 });

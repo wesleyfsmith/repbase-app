@@ -38,12 +38,6 @@ if (Users.db.find().count() === 0 && Meteor.settings.run_fixtures) {
         Attestations.fixtures.generateRandomAttestation(manager._id, user._id, periods[i]._id);
       }
     }
-
-    //generate random number of attestations
-    for (let i = 0; i < getRandomInt(10); i++) {
-     
-      Attestations.fixtures.generateRandomAttestation(manager._id, user._id);
-    }
   }
 
 

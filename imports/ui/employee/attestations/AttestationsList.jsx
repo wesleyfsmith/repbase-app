@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { KpiBronce } from '../assets/KpiBronce';
 import { KpiOro } from '../assets/KpiOro';
 import { KpiPlata } from '../assets/KpiPlata';
@@ -11,11 +11,15 @@ import { Link } from 'react-router-dom';
 import { Attestations } from '../../../api/attestations/attestations-module';
 import { useApi } from '/imports/api/utils/client-utils';
 
-export const AttestationMedal = ({textColor, badgeIcon, title, grayedOut, to}) => {
+export const AttestationMedal = ({textColor, badgeIcon, title, grayedOut, to, counter}) => {
   const grayscale = grayedOut ? ' grayscale(90%) ' : ' ';
   const destination = to ? to : '';
   return (
     <Link to={destination} className="flex flex-col w-1/4 justify-center">
+      {
+        counter &&
+        <article className="prose absolute text-primary font-bold rounded-full mb-16 w-7 bg-white text-xl text-center border-primary border-2" >{counter}</article>
+      }
       <div className={'flex justify-center'} style={{filter: grayscale}}>
         {badgeIcon}
       </div>
@@ -30,10 +34,19 @@ export const AttestationMedal = ({textColor, badgeIcon, title, grayedOut, to}) =
 export const AttestationsList = () => {
   const getAttestationCountsForUser = useApi(Attestations.api.getAttestationCountsForUser);
   useEffect(() => {
-    getAttestationCountsForUser.call();
+    getAttestationCountsForUser.call(Meteor.userId());
   }, []);
   const isGrayedOut = (badgeName) => {
-    return true;
+    if (!getAttestationCountsForUser.res) {
+      return false;
+    }
+    let result = true;
+    getAttestationCountsForUser.res.forEach((badge) => {
+      if (badge.name === badgeName && badge.attestationCount > 0) {
+        result = false;
+      } 
+    });
+    return result;
   };
   return (
     <div>
