@@ -79,5 +79,35 @@ export const api = registerMethods('attestations', {
       });
     });
     return results;
-  }
+  },
+  getBadgeStatisticsForUser({userId, badgeName}) {
+    const badge = Badges.db.findOne({name: badgeName});
+
+    const companyAttestationCount = Attestations.db.find({badge_id: badge._id}).fetch().length;
+    const userAttestationsCount = Attestations.db.find({badge_id: badge._id, reciever_id: userId}).fetch().length;
+
+    return {
+      veces: userAttestationsCount,
+      enEmpresa: companyAttestationCount,
+      enArea: companyAttestationCount,
+      enTotal: companyAttestationCount,
+      reward: badge.reward
+    };
+  },
+  getAttestionHistoryForUserAndBadge({userId, badgeName}) {
+    const badge = Badges.db.findOne({name: badgeName});
+    const userAttestations = Attestations.db.find({badge_id: badge._id, reciever_id: userId}).fetch();
+
+    const results = [];
+    userAttestations.forEach((attestation) => {
+      const timeperiod = TimePeriods.db.findOne({_id: attestation.timeperiod_id});
+      if (!timeperiod.end_date) return; //skip the current time period
+      results.push({
+        kpiPercentage: attestation.kpi_percentage,
+        startDate: timeperiod.start_date,
+        endDate: timeperiod.end_date
+      });
+    });
+    return results;
+  },
 });
