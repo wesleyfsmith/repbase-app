@@ -29,7 +29,7 @@ export const PasswordReset = () => {
       <div className="form-control">
         <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary mt-4">Recuperar contraseña</button>
       </div>
-      <p className="text-center pt-4 text-white"><Link to="/" className="text-primary">Regresar a inicio de sesión</Link></p>
+      <p className="text-center pt-4 text-white"><Link to="/login" className="text-primary">Regresar a inicio de sesión</Link></p>
       <article className="prose prose-sm text-white text-center mt-8">
         ¿No te has registrado?
       </article>
