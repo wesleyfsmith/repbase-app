@@ -28,6 +28,13 @@ export const schema = new SimpleSchema({
     type: employeeProfileSchema,
     optional: true
   },
+  roles: {
+    type: Array
+  },
+  'roles.$': {
+    type: String,
+    allowedValues: ['manager', 'employee']
+  },
   emails: {
     type: Array,
     optional: true,

@@ -7,7 +7,7 @@ import moment from 'moment';
 export const api = registerMethods('timeperiods', {
   getAllPeriods() {
     const results = [];
-    const timePeriods = TimePeriods.db.find().fetch();
+    const timePeriods = TimePeriods.db.find({}, {sort: {instance: -1}}).fetch();
     timePeriods.forEach((period) => {
       const attestationCount = Attestations.db.find({timeperiod_id: period._id}).fetch().length;
       results.push({
@@ -18,7 +18,7 @@ export const api = registerMethods('timeperiods', {
         _id: period._id
       });
     });
-    return results;
+    return results.slice(1, results.length);
   },
   getMostRecentPeriod() {
     const timePeriods = TimePeriods.db.find({}, {sort: {instance: -1}, limit: 1}).fetch();

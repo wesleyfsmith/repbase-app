@@ -48,8 +48,13 @@ if (Meteor.isServer) {
         last_names: options.profile.last_names,
         company_email: options.profile.company_email,
         company_sector: options.profile.company_sector
-      }
+      },
+      user.roles = ['employee']
     }
+    if (options.profile.account_type === 'manager') {
+      user.roles = ['manager']
+    }
+
       
       //TODO verify both addresses? 
       sendEmail(

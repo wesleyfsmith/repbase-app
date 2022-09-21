@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 export const Inicio = () => {
   const getEmployees = useApi(Companies.api.getTop10Employees);
-  const getTopAttestations = useApi(Attestations.api.getAttestationCountsForCurrentPeriod); 
+  const getTopAttestations = useApi(Attestations.api.getAttestationCountsForCurrentMonth); 
   useEffect(() => {
     getEmployees.call();
     getTopAttestations.call();

@@ -29,19 +29,19 @@ const ConfirmationModal = ({finalizePeriod}) => {
             </article>
             <div className="flex flex-col w-full">
               <article className="prose w-full mb-2 text-center">
-          Vas a finalizar el cumplimiento de KPIs para el periodo de Septiembre 1 - Septiembre 15, 2022.
+                Vas a finalizar el cumplimiento de KPIs para el periodo de Septiembre 1 - Septiembre 15, 2022.
               </article>
               <article className="prose mb-2 text-center">
-          Este cambio afectará el historial de los empleados y les emitirá tokens de tu tesorerería según su desempeño. 
+                Este cambio afectará el historial de los empleados y les emitirá tokens de tu tesorerería según su desempeño. 
               </article>
               <article className="prose mb-2 text-center">
-          Podrás cambiar el cumplimiento de estos KPIs posteriormente, pero los tokens emitidos no pueden ser reembolsados.
+                Podrás cambiar el cumplimiento de estos KPIs posteriormente, pero los tokens emitidos no pueden ser reembolsados.
               </article>
               <article className="prose mb-2 text-center">
-          Antes de continuar, asegúrate de que el cumplimiento de KPIs es verdadero y poco probable que cambie.
+                Antes de continuar, asegúrate de que el cumplimiento de KPIs es verdadero y poco probable que cambie.
               </article>
               <article className="prose mb-2 text-center">
-          Tomando lo anterior en cuenta, ¿quieres confirmar este periodo?
+                Tomando lo anterior en cuenta, ¿quieres confirmar este periodo?
               </article>
             </div>
           </div>
@@ -95,7 +95,7 @@ const EmployeeKpiTable = ({employees, isActivePeriod}) => {
   for (let i = 0; i < employees.length; i++) {
     const employee = employees[i];
     rows.push(<tr key={i}>
-      <th>{`${i}`}</th>
+      <th>{`${i + 1}`}</th>
       <td>{employee.employee_profile.names}</td>
       <td>{employee.employee_profile.company_email}</td>
       <td>{employee.employee_profile.company_sector}</td>
@@ -154,29 +154,35 @@ export const TimePeriodPage = () => {
                   <ArrowLeftIcon className="w-8"/>
                 </Link>
               </div>
-          
-              <article className='prose font-bold prose-xl mx-4'>
-            EDITAR KPIs
-              </article>
+              { getPeriod.res && getPeriod.res.isCurrentPeriod ? 
+                <article className='prose font-bold prose-xl mx-4'>
+                  EDITAR KPIs
+                </article> :
+                <article className='prose font-bold prose-xl mx-4'>
+                  KPIs
+                </article>
+              }
               {
-                getPeriod.res && getPeriod.res.isCurrentPeriod &&
-            <article className="prose prose-xl">
-              {` > de periodo actual (${getPeriod.res.start_date.toDateString()} - ${endDateString(getPeriod.res)})`}
-            </article>
+                getPeriod.res &&
+                <article className="prose prose-xl">
+                  {` > de periodo actual (${getPeriod.res.start_date.toDateString()} - ${endDateString(getPeriod.res)})`}
+                </article>
               }
             </div>
-          
-            <div className="flex justify-end">
-              <label htmlFor="my-modal-3" className="btn btn-primary w-full modal-button">Finalizar Periodo</label>        
-              {/* {
-              getPeriod.res && getPeriod.res.isCurrentPeriod &&
-              <button onClick={finalizePeriod} className="btn btn-primary w-full">Finalizar Periodo</button>
-            } */}
-            </div>
+              { getPeriod.res && getPeriod.res.isCurrentPeriod &&
+                 <div className="flex justify-end">
+                 <label htmlFor="my-modal-3" className="btn btn-primary w-full modal-button">Finalizar Periodo</label>        
+               </div>
+              }
+           
           </div>
-          <article className='prose mb-4'>
-        Selecciona el KPI que deseas editar.
-          </article>
+          {
+            getPeriod.res && getPeriod.res.isCurrentPeriod &&
+            <article className='prose mb-4'>
+              Selecciona el KPI que deseas editar.
+            </article> 
+          }
+          
           {
             getEmployeesForCurrentKpi.res &&
           <EmployeeKpiTable employees={getEmployeesForCurrentKpi.res} isActivePeriod={getPeriod.res.isCurrentPeriod} />

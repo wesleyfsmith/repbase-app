@@ -15,6 +15,7 @@ import {
 import {
   getDefaultWallets,
   RainbowKitProvider,
+  lightTheme
 } from '@rainbow-me/rainbowkit';
 import {chains, wagmiClient} from '/imports/utils/wallet-client-utils';
 // import your route components too
@@ -30,7 +31,6 @@ import { ConfirmTransaction } from './employee/exchange/ConfirmTransaction';
 import { TransactionReceipt } from './employee/exchange/TransactionReceipt';
 import { PasswordReset } from './employee/account/PasswordReset';
 import { AttestationsCount } from './employee/attestations/AttestationsCount';
-import { Sidebar } from './empresa/Sidebar';
 import { LandingPage } from './LandingPage';
 import { Inicio } from './empresa/inicio/Inicio';
 import { Kpis } from './empresa/kpis/Kpis';
@@ -40,6 +40,12 @@ import { Logros } from './empresa/logros/Logros';
 import { Ajustes } from './empresa/ajustes/Ajustes';
 import { EmpresaLogin } from './empresa/account/Login';
 
+const PageContainer = ({children}) => (
+  <div className="container max-w-2xl mx-auto bg-white drop-shadow-lg">
+    {children}
+  </div>
+);
+
 // max-w-3xl drop-shadow-lg 
 
 Meteor.startup(() => {
@@ -47,23 +53,26 @@ Meteor.startup(() => {
     <div className="">
       <div className="mx-auto bg-white">
         <WagmiConfig client={wagmiClient}>
-          <RainbowKitProvider chains={chains}>
+          <RainbowKitProvider theme={lightTheme({
+            accentColor: '#18A0FB',
+            borderRadius: 'medium',
+            overlayBlur: 'small',
+            fontStack: 'rounded'
+          })} chains={chains} initialChain={chain.polygon}>
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<LandingPage />}/>
-                <Route path="/signup" element={<Signup />}/>
-                <Route path="/login" element={<Login />}/>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                <Route path="/attestation/:rewardType" element={<KpiAttestation />} />
-                <Route path="/exchange" element={<ExchangeStart/>} />
-                <Route path="/exchange/tokenselect" element={<TokenSelect/>} />
-                <Route path="/exchange/txreceipt" element={<TransactionReceipt/>} />
-                <Route path="/exchange/confirmtx" element={<ConfirmTransaction/>} />
-                <Route path="/attestationscount" element={<AttestationsCount/>} />
-                <Route path="/passwordreset" element={<PasswordReset/>} />
-                <Route path="/sidebar" element={<Sidebar/>} />
-                <Route path="/empresa/signup" element={<Signup/>} />
+                <Route path="/signup" element={<PageContainer><Signup /></PageContainer>}/>
+                <Route path="/login" element={<PageContainer><Login /></PageContainer>}/>
+                <Route path="/dashboard" element={<PageContainer><Dashboard /></PageContainer>} />
+                <Route path="/settings" element={<PageContainer><SettingsPage /></PageContainer>} />
+                <Route path="/attestation/:rewardType" element={<PageContainer><KpiAttestation /></PageContainer>} />
+                <Route path="/exchange" element={<PageContainer><ExchangeStart/></PageContainer>} />
+                <Route path="/exchange/tokenselect" element={<PageContainer><TokenSelect/></PageContainer>} />
+                <Route path="/exchange/txreceipt" element={<PageContainer><TransactionReceipt/></PageContainer>} />
+                <Route path="/exchange/confirmtx" element={<PageContainer><ConfirmTransaction/></PageContainer>} />
+                <Route path="/attestationscount" element={<PageContainer><AttestationsCount/></PageContainer>} />
+                <Route path="/passwordreset" element={<PageContainer><PasswordReset/></PageContainer>} />
                 <Route path="/empresa/inicio" element={<Inicio />} />
                 <Route path="/empresa/kpis" element={<Kpis />} />
                 <Route path="/empresa/kpis/timeperiod/:id" element={<TimePeriodPage />} />

@@ -14,23 +14,47 @@ export const api = registerMethods('attestations', {
   updateAttestationForUser({userId, kpiPercentage}) {
     //todo assign the correct badge color for percentage
     const bronceBadge = Badges.db.findOne({name: 'Bronce'});
+    const plataBadge = Badges.db.findOne({name: 'Plata'});
+    const platinoBadge = Badges.db.findOne({name: 'Platino'});
+    const oroBadge = Badges.db.findOne({name: 'Oro'});
     const timeperiod = TimePeriods.api.getMostRecentPeriod.call();
+
+    let badgeId = null;
+    
+    if (kpiPercentage >= 60 && kpiPercentage <= 75) {
+      badgeId = bronceBadge._id;
+    }
+    if (kpiPercentage >= 76 && kpiPercentage <= 89) {
+      badgeId = plataBadge._id;
+    }
+    if (kpiPercentage >= 90) {
+      badgeId = oroBadge._id;
+    }
+    if (kpiPercentage >= 100) {
+      badgeId = platinoBadge._id;
+    }
+
     //check if user already has attestation for the current period
     const attestations = Attestations.db.find({reciever_id: userId, timeperiod_id: timeperiod._id}).fetch();
     if (attestations.length > 0) {
       const attestation = attestations[0];
-      console.log({attestationId: attestation._id});
-      Attestations.db.update({_id: attestation._id}, {$set: {kpi_percentage: kpiPercentage}});
+      if (!badgeId) {
+        Attestations.db.remove({_id: attestation._id}); //delete because no reward
+      } else {
+        Attestations.db.update({_id: attestation._id}, {$set: {kpi_percentage: kpiPercentage, badge_id: badgeId}});
+      }
     } else {
+      if (!badgeId) {
+        return;
+      }
       const attestation = {
-        badge_id: bronceBadge._id,
+        badge_id: badgeId,
         issuer_id: Users.secure.userId(this),
         reciever_id: userId,
         timeperiod_id: timeperiod._id,
         kpi_percentage: kpiPercentage
       };
-      const attestationId = Attestations.db.insert(attestation);
-      console.log({attestationId});
+      Attestations.db.insert(attestation);
     }
   },
   read(_id) {
@@ -49,18 +73,33 @@ export const api = registerMethods('attestations', {
     });
     return results;
   },
-  getAttestationCountsForCurrentPeriod() {
-    const currentTimePeriod = TimePeriods.api.getMostRecentPeriod.call();
+  getAttestationCountsForCurrentMonth() {
     const badges = Badges.db.find().fetch();
+
+    const timePeriods = TimePeriods.db.find({end_date: {$exists: true}}).fetch();
+
+    const currentMonthTimePeriods = [];
+    const monthAgo = new Date();
+    monthAgo.setMonth(monthAgo.getMonth() - 1);
+    monthAgo.setHours(0, 0, 0, 0); // Zero the time component
+    timePeriods.forEach((period) => {
+      if (new Date(period.start_date) >= monthAgo) {
+        currentMonthTimePeriods.push(period);
+      } 
+    });
+
     const results = [];
-    badges.forEach((badge) => {
-      const count = Attestations.db.find({badge_id: badge._id, timeperiod_id: currentTimePeriod._id}).fetch().length;
-      results.push({
-        name: badge.name,
-        attestationCount: count,
-        tokens: badge.reward * count
+    currentMonthTimePeriods.forEach((period) => {
+      badges.forEach((badge) => {
+        const count = Attestations.db.find({badge_id: badge._id, timeperiod_id: period._id}).fetch().length;
+        results.push({
+          name: badge.name,
+          attestationCount: count,
+          tokens: badge.reward * count
+        });
       });
     });
+    
     return results.sort((a, b) => {
       if (a.attestationCount < b.attestationCount) return -1;
       if (a.attestationCount > b.attestationCount) return 1;

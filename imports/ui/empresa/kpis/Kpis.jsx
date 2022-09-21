@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 
 const getMostRecentTimePeriod = (timeperiods) => {
   let maxTimePeriod = {instance: -1};
-  console.log({timeperiods});
   for (let i = 0; i < timeperiods.length; i++) {
     if (timeperiods[i].instance > maxTimePeriod.instance) {
       maxTimePeriod = timeperiods[i];

@@ -17,7 +17,7 @@ export const fixtures = {
     const employeeProfile = {
       names: getFaker().name.fullName(),
       last_names: getFaker().name.fullName(),
-      company_email: getFaker().internet.email(),
+      company_email: email,
       company_sector: 'tech',
       account_type: 'employee'
     };

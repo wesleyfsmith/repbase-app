@@ -44,7 +44,7 @@ export const LogrosTable = ({attestations}) => {
     const attestation = attestations[i];
     const icon = getBadgeIcon(attestation);
     rows.push(<tr key={i}>
-      <th>{`${i}`}</th>
+      <th>{`${i + 1}`}</th>
       <td>{icon}</td>
       <td>{attestation.name}</td>
       <td>{attestation.attestationCount}</td>

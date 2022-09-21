@@ -59,7 +59,6 @@ const SettingsForm = () => {
 
   if (getEmployeeProfile.res && email === '') {
     const profile = getEmployeeProfile.res;
-    console.log({profile});
     setNames(profile.names);
     setLastNames(profile.last_names);
     setCorporateEmail(profile.company_email);

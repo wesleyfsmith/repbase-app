@@ -43,7 +43,7 @@ export const Sidebar = ({children}) => {
             <li className={`${kpisSelected} rounded-lg`}><Link to="/empresa/kpis">KPIs</Link></li>
             <li className={`${empleadosSelected} rounded-lg`}><Link to="/empresa/empleados">Empleados</Link></li>
             <li className={`${logrosSelected} rounded-lg`}><Link to="/empresa/logros">Logros</Link></li>
-            <li className={`${ajustesSelected} rounded-lg`}><Link to="/empresa/logros">Ajustes</Link></li>
+            <li className={`${ajustesSelected} rounded-lg`}><Link to="/empresa/ajustes">Ajustes</Link></li>
             <li><a onClick={salir}>Salir</a></li>
           </ul>
   

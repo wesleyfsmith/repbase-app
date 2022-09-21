@@ -6,7 +6,7 @@ export const EmployeeTable = ({employees}) => {
   for (let i = 0; i < employees.length; i++) {
     const employee = employees[i];
     rows.push(<tr key={i}>
-      <th>{`${i}`}</th>
+      <th>{`${i + 1}`}</th>
       <td>{employee.employee_profile.names}</td>
       <td>{employee.employee_profile.company_email}</td>
       <td>{employee.employee_profile.company_sector}</td>

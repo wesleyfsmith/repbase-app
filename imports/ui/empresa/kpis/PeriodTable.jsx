@@ -9,7 +9,7 @@ export const PeriodTable = ({timeperiods}) => {
     const timeperiod = timeperiods[i];
     const endDateString = timeperiod.end_date === 'N/A' ? 'N/A' : timeperiod.end_date.toDateString();
     rows.push(<tr key={i}>
-      <th>{`${i}`}</th>
+      <th>{`${i + 1}`}</th>
       <td>{`${timeperiod.start_date.toDateString()} - ${endDateString}`}</td>
       <td className="text-center">{timeperiod.attestationCount}</td>
       <td className="text-center">{100}</td>
