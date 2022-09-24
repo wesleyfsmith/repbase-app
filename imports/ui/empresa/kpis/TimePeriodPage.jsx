@@ -63,7 +63,6 @@ const KpiField = ({employeeId, kpiValue, canEdit}) => {
   const updateAttestationForUser = useApi(Attestations.api.updateAttestationForUser);
   const [showEditField, setShowEditField] = useState(false);
   const [kpiAmount, setKpiAmount] = useState(kpiValue !== '--' ? kpiValue : '');
-  console.log({kpiAmount});
   
   const submitUpdatedAttestations = async () => {
     //TODO check kpi amount is a number

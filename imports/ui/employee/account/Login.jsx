@@ -35,7 +35,7 @@ export const Login = () => {
     e.preventDefault();
     console.log({email, password})
     await loginWithPassword.call({email, password});
-    navigate('/dashboard');
+    navigate('/dashboard'); 
   }
 
   return (

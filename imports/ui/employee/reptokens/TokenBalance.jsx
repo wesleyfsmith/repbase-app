@@ -40,7 +40,6 @@ export const TokenBalance = ({hideButton}) => {
     await getUserTokenBalance.call(Meteor.userId());
     await getUserWalletAddress.call(Meteor.userId());
   }, []);
-  console.log({address})
 
   if (address) {
     return (

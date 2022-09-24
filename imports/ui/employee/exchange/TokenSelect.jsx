@@ -83,7 +83,7 @@ export const TokenSelect = () => {
       <div className="container mx-auto px-3">
         <Navbar showBackButton title="Elegir Token" />
       </div>
-      <TokenDetails name={'Wrapped Bitcoin'} rate={'wBTC 1 ~ USD$ 21.025,15'} clickHandler={() => selectToken('Wrapped Bitcoin')}
+      <TokenDetails name={'Wrapped Bitcoin'} rate={'wBTC 1 ~ USD$ 21.025,15'} clickHandler={() => selectToken('Bitcoin')}
         icon={<BitcoinIcon/>}
         info={'Es un espejo en el blockchain de Ethereum de la primera y más popular criptomoneda del mundo: Bitcoin. Este token no es Bitcoin en sí, pero refleja su valor exacto en tiempo real. A diferencia del Bitcoin normal, puedes usarlo en contratos inteligentes.'}
       />

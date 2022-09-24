@@ -1,15 +1,17 @@
 import React from 'react';
 import { Titlebar } from '../components/Titlebar';
 import { Navbar } from '../components/Navbar';
+import { Link, useParams } from 'react-router-dom';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
 
 const BitcoinIcon = () => (
   <div className="w-10">
     <div className="flex justify-center">
-    <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M34.2692 19.7669C34.2697 28.0529 27.5482 34.7658 19.2733 34.7634C10.987 34.7639 4.2742 28.0427 4.27668 19.7679C4.27623 11.4819 10.9862 4.77189 19.2725 4.77151C27.5446 4.76247 34.2688 11.4807 34.2692 19.7669Z" fill="#D9D9D9"/>
-<path d="M25.8035 15.8582C25.6058 13.8543 23.8782 13.1739 21.6813 12.9849L21.6859 10.1939L19.9948 10.1928L19.9959 12.91C19.5497 12.9125 19.0921 12.9179 18.6373 12.9347L18.6333 10.2062L16.9422 10.2051L16.9462 12.9819C16.5738 12.9902 16.2129 12.9957 15.8633 12.9983L15.8604 12.9869L13.5184 12.9911L13.523 14.8016C13.523 14.8016 14.7736 14.7797 14.7537 14.7967C15.4415 14.7943 15.6629 15.1981 15.7252 15.5449L15.7204 18.7224C15.7687 18.7225 15.8284 18.7197 15.9051 18.7368C15.8454 18.7396 15.7857 18.7424 15.7232 18.7338L15.7204 23.179C15.689 23.3922 15.558 23.7389 15.0862 23.7357C15.1033 23.7556 13.8556 23.7406 13.8556 23.7406L13.516 25.7697L15.7273 25.774C16.1394 25.7799 16.5373 25.7773 16.9381 25.7861L16.9391 28.5999L18.6302 28.601L18.6348 25.8099C19.0953 25.8159 19.5557 25.8219 19.9906 25.8222L19.9945 28.599L21.6856 28.6001L21.6846 25.7863C24.5411 25.6176 26.5368 24.9026 26.7744 22.2225C26.9747 20.0711 25.9606 19.1041 24.3408 18.7108C25.3388 18.2084 25.9504 17.3192 25.8035 15.8582ZM23.4293 21.885C23.4337 23.9854 19.8242 23.7501 18.6759 23.7465L18.6755 20.0147C19.8237 20.0182 23.4364 19.6852 23.4293 21.885ZM22.6453 16.6094C22.6413 18.5307 19.6372 18.3014 18.6822 18.298L18.6844 14.9158C19.6394 14.9192 22.6438 14.617 22.6453 16.6094Z" fill="#F89E31"/>
-<path d="M19.6308 4.00353C11.0725 3.92885 4.07225 10.808 3.99756 19.3663C3.92286 27.926 10.7992 34.9262 19.3589 35.0023C21.3947 35.0205 23.4143 34.6373 25.302 33.8748C27.1898 33.1123 28.9089 31.9854 30.3611 30.5583C31.8132 29.1313 32.97 27.4322 33.7653 25.558C34.5607 23.6838 34.979 21.6713 34.9964 19.6354C35.0697 11.0757 28.1905 4.07823 19.6308 4.00353ZM19.6188 5.21215C21.4959 5.22704 23.3515 5.61177 25.0798 6.34435C26.808 7.07692 28.3749 8.14297 29.6908 9.48154C31.0067 10.8201 32.0459 12.4049 32.7489 14.1454C33.4519 15.8859 33.8049 17.7478 33.7878 19.6248C33.7161 27.5107 27.2654 33.8456 19.3809 33.7768C11.495 33.708 5.15725 27.2615 5.22323 19.3756C5.28921 11.4896 11.7329 5.14901 19.6188 5.21215ZM27.5476 28.4882C25.3089 30.4998 22.3984 31.6008 19.3888 31.5746C16.3792 31.5483 13.4883 30.3967 11.285 28.3463L10.4265 29.19L10.7389 29.4737C13.1858 31.6272 16.3398 32.8045 19.5992 32.7812C22.8587 32.7578 25.9955 31.5354 28.4112 29.347L27.5476 28.4882ZM9.80412 10.4409C7.52407 12.8711 6.24207 16.0704 6.21299 19.4026C6.18391 22.7349 7.40988 25.956 9.64717 28.4257L10.506 27.5536L10.2391 27.2476C8.35134 24.9965 7.35103 22.1332 7.4263 19.1962C7.50157 16.2593 8.64723 13.451 10.6478 11.2995L9.80412 10.4409ZM29.3525 10.5746L29.3523 10.5945L28.4937 11.4382L28.7606 11.7441C30.6507 13.9959 31.6524 16.8609 31.5771 19.7999C31.5018 22.7388 30.3547 25.5488 28.3518 27.7008L29.1955 28.5594L29.4792 28.2469C31.6327 25.8001 32.81 22.6461 32.7867 19.3866C32.7633 16.1271 31.5408 12.9903 29.3525 10.5746ZM28.2607 9.52661C25.8139 7.37311 22.6599 6.19575 19.4004 6.21911C16.141 6.24247 13.0042 7.46494 10.5884 9.65329L11.452 10.512L11.7579 10.2452C14.0097 8.35504 16.8748 7.35333 19.8137 7.42862C22.7526 7.50391 25.5626 8.65102 27.7146 10.654L28.5732 9.81024L28.2607 9.52661Z" fill="#333333"/>
-</svg>
+      <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M34.2692 19.7669C34.2697 28.0529 27.5482 34.7658 19.2733 34.7634C10.987 34.7639 4.2742 28.0427 4.27668 19.7679C4.27623 11.4819 10.9862 4.77189 19.2725 4.77151C27.5446 4.76247 34.2688 11.4807 34.2692 19.7669Z" fill="#D9D9D9"/>
+        <path d="M25.8035 15.8582C25.6058 13.8543 23.8782 13.1739 21.6813 12.9849L21.6859 10.1939L19.9948 10.1928L19.9959 12.91C19.5497 12.9125 19.0921 12.9179 18.6373 12.9347L18.6333 10.2062L16.9422 10.2051L16.9462 12.9819C16.5738 12.9902 16.2129 12.9957 15.8633 12.9983L15.8604 12.9869L13.5184 12.9911L13.523 14.8016C13.523 14.8016 14.7736 14.7797 14.7537 14.7967C15.4415 14.7943 15.6629 15.1981 15.7252 15.5449L15.7204 18.7224C15.7687 18.7225 15.8284 18.7197 15.9051 18.7368C15.8454 18.7396 15.7857 18.7424 15.7232 18.7338L15.7204 23.179C15.689 23.3922 15.558 23.7389 15.0862 23.7357C15.1033 23.7556 13.8556 23.7406 13.8556 23.7406L13.516 25.7697L15.7273 25.774C16.1394 25.7799 16.5373 25.7773 16.9381 25.7861L16.9391 28.5999L18.6302 28.601L18.6348 25.8099C19.0953 25.8159 19.5557 25.8219 19.9906 25.8222L19.9945 28.599L21.6856 28.6001L21.6846 25.7863C24.5411 25.6176 26.5368 24.9026 26.7744 22.2225C26.9747 20.0711 25.9606 19.1041 24.3408 18.7108C25.3388 18.2084 25.9504 17.3192 25.8035 15.8582ZM23.4293 21.885C23.4337 23.9854 19.8242 23.7501 18.6759 23.7465L18.6755 20.0147C19.8237 20.0182 23.4364 19.6852 23.4293 21.885ZM22.6453 16.6094C22.6413 18.5307 19.6372 18.3014 18.6822 18.298L18.6844 14.9158C19.6394 14.9192 22.6438 14.617 22.6453 16.6094Z" fill="#F89E31"/>
+        <path d="M19.6308 4.00353C11.0725 3.92885 4.07225 10.808 3.99756 19.3663C3.92286 27.926 10.7992 34.9262 19.3589 35.0023C21.3947 35.0205 23.4143 34.6373 25.302 33.8748C27.1898 33.1123 28.9089 31.9854 30.3611 30.5583C31.8132 29.1313 32.97 27.4322 33.7653 25.558C34.5607 23.6838 34.979 21.6713 34.9964 19.6354C35.0697 11.0757 28.1905 4.07823 19.6308 4.00353ZM19.6188 5.21215C21.4959 5.22704 23.3515 5.61177 25.0798 6.34435C26.808 7.07692 28.3749 8.14297 29.6908 9.48154C31.0067 10.8201 32.0459 12.4049 32.7489 14.1454C33.4519 15.8859 33.8049 17.7478 33.7878 19.6248C33.7161 27.5107 27.2654 33.8456 19.3809 33.7768C11.495 33.708 5.15725 27.2615 5.22323 19.3756C5.28921 11.4896 11.7329 5.14901 19.6188 5.21215ZM27.5476 28.4882C25.3089 30.4998 22.3984 31.6008 19.3888 31.5746C16.3792 31.5483 13.4883 30.3967 11.285 28.3463L10.4265 29.19L10.7389 29.4737C13.1858 31.6272 16.3398 32.8045 19.5992 32.7812C22.8587 32.7578 25.9955 31.5354 28.4112 29.347L27.5476 28.4882ZM9.80412 10.4409C7.52407 12.8711 6.24207 16.0704 6.21299 19.4026C6.18391 22.7349 7.40988 25.956 9.64717 28.4257L10.506 27.5536L10.2391 27.2476C8.35134 24.9965 7.35103 22.1332 7.4263 19.1962C7.50157 16.2593 8.64723 13.451 10.6478 11.2995L9.80412 10.4409ZM29.3525 10.5746L29.3523 10.5945L28.4937 11.4382L28.7606 11.7441C30.6507 13.9959 31.6524 16.8609 31.5771 19.7999C31.5018 22.7388 30.3547 25.5488 28.3518 27.7008L29.1955 28.5594L29.4792 28.2469C31.6327 25.8001 32.81 22.6461 32.7867 19.3866C32.7633 16.1271 31.5408 12.9903 29.3525 10.5746ZM28.2607 9.52661C25.8139 7.37311 22.6599 6.19575 19.4004 6.21911C16.141 6.24247 13.0042 7.46494 10.5884 9.65329L11.452 10.512L11.7579 10.2452C14.0097 8.35504 16.8748 7.35333 19.8137 7.42862C22.7526 7.50391 25.5626 8.65102 27.7146 10.654L28.5732 9.81024L28.2607 9.52661Z" fill="#333333"/>
+      </svg>
     </div>
 
   </div>
@@ -40,7 +42,7 @@ const USDCIcon = () => (
 
 const BlueLineSeparator = () => (
   <div className="w-9/10 border-b border-primary mr-2 pt-1 pb-1"></div>
-)
+);
 
 const InfoIcon = () => (
   <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,71 +50,89 @@ const InfoIcon = () => (
   </svg>
 );
 
-const CardBox = ({name, rate, info, icon}) => (
-  <div className="bg-gray-100 rounded-lg mx-4 p-4 mb-4">
-    <div className="flex justify-between">
-      <article className="prose flex flex-col justify-center">
-        <p className="">Reptokens a redimir</p>
-      </article>
-      <article className="prose prose-xl">
-        <p className="font-bold">0,007</p>
-      </article>
-    </div>
-    <BlueLineSeparator />
-    <div className="flex justify-between">
-      <article className="prose flex flex-col justify-center">
-        <p className="">Recibes</p>
-      </article>
-      <article className="prose prose-xl">
-        <div className="flex justify-end">
-          <p className="font-bold m-0">0,007</p>
-        </div>
-        <div className="flex">
-          <BitcoinIcon />
+const CardBox = ({name, rate, info, icon}) => { 
+  let { coinType } = useParams();
+  const { address, isConnected } = useAccount();
+
+
+  let coinIcon = null;
+  if (coinType === 'eth') {
+    coinIcon = <EthereumIcon />;
+  }
+  if (coinType === 'btc') {
+    coinIcon = <BitcoinIcon />;
+  }
+  if (coinType === 'usdc') {
+    coinIcon = <USDCIcon />;
+  }
+  return (
+    <div>
+      <div className="bg-gray-100 rounded-lg mx-4 p-4 mb-4">
+        <div className="flex justify-between">
           <article className="prose flex flex-col justify-center">
+            <p className="">Reptokens a redimir</p>
+          </article>
+          <article className="prose prose-xl">
+            <p className="font-bold">0,007</p>
+          </article>
+        </div>
+        <BlueLineSeparator />
+        <div className="flex justify-between">
+          <article className="prose flex flex-col justify-center">
+            <p className="">Recibes</p>
+          </article>
+          <article className="prose prose-xl">
+            <div className="flex justify-end">
+              <p className="font-bold m-0">0,007</p>
+            </div>
+            <div className="flex">
+              {coinIcon}
+              <article className="prose flex flex-col justify-center">
             wBTC
+              </article>
+            </div>
           </article>
         </div>
-      </article>
-    </div>
-    <BlueLineSeparator />
-    <article className="prose prose-xl font-bold mt-4">
+        <BlueLineSeparator />
+        <article className="prose prose-xl font-bold mt-4">
       Costos de transacción
-    </article>
-    <article className="prose leading-6">
+        </article>
+        <article className="prose leading-6">
       5% de comisión serán descontada de tus RepToken según la tasa de cambio.
-    </article>
-    <div className="flex justify-between  mt-4">
-      <article className="prose prose-xl flex flex-col justify-center font-bold">
+        </article>
+        <div className="flex justify-between  mt-4">
+          <article className="prose prose-xl flex flex-col justify-center font-bold">
         Subtotal
-      </article>
-      <article className="prose prose-xl">
-        <p className="font-bold">$0,007</p>
-      </article>
-    </div>
-    <div className="flex justify-between">
-      <article className="prose prose-xl flex flex-col justify-center font-bold">
-        Total de wBTC
-      </article>
-      <article className="prose prose-xl">
-        <p className="font-bold">0,007</p>
-      </article>
-    </div>
-    <div className="flex mt-4">
-        <div className="w-24 p-4">
-          <InfoIcon />
-        </div>
-        <div>
-          <article className="prose prose-sm leading-6 mt-2">
-            <p>{`Al confirmar se entiende que aceptas estos costos de transacción.`}</p>
           </article>
+          <article className="prose prose-xl">
+            <p className="font-bold">$0,007</p>
+          </article>
+        </div>
+        <div className="flex justify-between">
+          <article className="prose prose-xl flex flex-col justify-center font-bold">
+        Total de wBTC
+          </article>
+          <article className="prose prose-xl">
+            <p className="font-bold">0,007</p>
+          </article>
+        </div>
+        <div className="flex mt-4">
+          <div className="w-24 p-4">
+            <InfoIcon />
+          </div>
+          <div>
+            <article className="prose prose-sm leading-6 mt-2">
+              <p>{'Al confirmar se entiende que aceptas estos costos de transacción.'}</p>
+            </article>
+          </div>
+        </div>
+        <div className="form-control mt-4">
+          <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary">Confirmar</button>
         </div>
       </div>
-    <div className="form-control mt-4">
-      <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary">Confirmar</button>
     </div>
-  </div>
-);
+    
+  );};
 
 export const ConfirmTransaction = () => (
   <div className="h-max">
@@ -121,7 +141,7 @@ export const ConfirmTransaction = () => (
       <Navbar showBackButton title="Elegir Token" />
     </div>
     <article className="prose prose-xl text-white">
-      <p className="font-bold">{`CONFIRMA LA TRANSACCIÓN`}</p>
+      <p className="font-bold">{'CONFIRMA LA TRANSACCIÓN'}</p>
     </article>
     <CardBox />    
   </div>    

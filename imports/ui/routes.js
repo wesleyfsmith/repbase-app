@@ -70,7 +70,7 @@ Meteor.startup(() => {
                 <Route path="/exchange" element={<PageContainer><ExchangeStart/></PageContainer>} />
                 <Route path="/exchange/tokenselect" element={<PageContainer><TokenSelect/></PageContainer>} />
                 <Route path="/exchange/txreceipt" element={<PageContainer><TransactionReceipt/></PageContainer>} />
-                <Route path="/exchange/confirmtx" element={<PageContainer><ConfirmTransaction/></PageContainer>} />
+                <Route path="/exchange/confirmtx/:coinType" element={<PageContainer><ConfirmTransaction/></PageContainer>} />
                 <Route path="/attestationscount" element={<PageContainer><AttestationsCount/></PageContainer>} />
                 <Route path="/passwordreset" element={<PageContainer><PasswordReset/></PageContainer>} />
                 <Route path="/empresa/inicio" element={<Inicio />} />

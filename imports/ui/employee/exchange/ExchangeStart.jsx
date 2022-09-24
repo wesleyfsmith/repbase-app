@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Titlebar } from '../components/Titlebar';
 import { Navbar } from '../components/Navbar';
 import { TokenBalance } from '../reptokens/TokenBalance';
 import { Link } from 'react-router-dom';
+import { useApi } from '../../../api/utils/client-utils';
+import { Crypto } from '../../../api/crypto/crypto-module';
 
 const ExchangeRate = () => (
   <div className="bg-neutral rounded-lg mx-4 p-1.5">
@@ -16,9 +18,9 @@ const ExchangeRate = () => (
         </article>
       </div>
       <div className='w-1/3 text-white flex justify-center'>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-14">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-      </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-14">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+        </svg>
 
       </div>
       <div className='w-1/3'>
@@ -33,72 +35,105 @@ const ExchangeRate = () => (
   </div>
 );
 
-const TokenPriceSection = ({tokenName, rateCop, rateUsd}) => {
-  let tokenElement = null;
+const ReptokenPriceSection = ({rateCop, rateUsd}) => (
+  <div className="bg-accent rounded-lg p-1 flex justify-between">
+    <div className='flex flex-col justify-center pl-1'>
+      <span className="badge badge-primary p-4">
+        <article className="prose prose-xl text-white flex justify-end w-full">
+          <p>
+            Reptokens
+          </p>
+        </article>
+      </span>
+    </div>
+    <div className='w-1/3 text-white pr-2'>
+      <article className="prose prose-xl text-white flex justify-end w-full">
+        <p className="font-bold">{rateCop}</p>
+      </article>
+      <article className="prose text-white flex justify-end">
+        <p>{`USD$ ${rateUsd}`}</p>
+      </article> 
+    </div>
+  </div>
+);
 
+
+const TokenPriceSection = ({ reptokenAmount }) => {
+
+  const getConversion = useApi(Crypto.api.getConversion);
   
-  if (tokenName === 'none' && !window.criptoSelected) {
+  useEffect(() => {
+    console.log({sel: window.criptoSelected});
+    if (window.criptoSelected) {
+      getConversion.call({coinType: window.criptoSelected, repTokens: reptokenAmount});
+    }
+  }, [reptokenAmount]);
+
+
+  let tokenElement = null;
+  
+  if (!window.criptoSelected) {
     tokenElement = (
-      <Link to="/exchange/tokenselect">
+      <Link to="/exchange/tokenselect" className="my-4 w-full">
         <span className="badge badge-neutral p-4">
-            <article className="prose prose-xl text-white flex justify-end w-full">
-            Seleccionar
-              </article>
-            </span>
+          <article className="prose prose-xl text-white flex justify-end">
+            Seleccionar Cripto
+          </article>
+        </span>
       </Link>
-    )
+    );
   } 
 
   if (window.criptoSelected) {
     tokenElement = (
-      <Link to="/exchange/tokenselect">
+      <Link to="/exchange/tokenselect" className="my-4 w-full">
         <span className="badge badge-neutral p-4">
-            <article className="prose prose-xl text-white flex justify-end w-full">
-              {window.criptoSelected.toUpperCase()}
-              </article>
-            </span>
+          <article className="prose prose-xl text-white flex justify-end w-full">
+            {window.criptoSelected.toUpperCase()}
+          </article>
+        </span>
       </Link>
-    )
+    );
   }
-  
-  if (tokenName === 'RepTokens') {
-    tokenElement = (
-      <span className="badge badge-primary p-4">
-            <article className="prose prose-xl text-white flex justify-end w-full">
-              <p>
-                {tokenName}
-              </p>
-              </article>
-            </span>
-    )
-  };
+
+  if (!window.criptoSelected) {
+    return (
+      <div className="bg-accent rounded-lg p-1 flex">
+        {tokenElement}
+      </div>
+    );
+  }
 
 
   return (
-    <div className="bg-accent rounded-lg p-1 flex">
-        <div className='w-1/2 flex flex-col justify-center pl-1'>
-          {tokenElement}
-        </div>
-        <div className='w-1/2 text-white pr-2'>
+    <div className="bg-accent rounded-lg p-1 flex justify-between">
+      <div className='flex flex-col justify-center pl-1'>
+        {tokenElement}
+      </div>
+      {
+        getConversion.res &&
+        <div className='w-1/3 text-white pr-2'>
           <article className="prose prose-xl text-white flex justify-end w-full">
-            <p className="font-bold">{rateCop}</p>
+            <p className="font-bold">{getConversion.res.exchangeAmount}</p>
           </article>
           <article className="prose text-white flex justify-end">
-            <p>{`USD$ ${rateUsd}`}</p>
+            <p>{`USD$ ${getConversion.res.usdAmount}`}</p>
           </article> 
         </div>
-      </div>
-  )
-}
+      }
+      
+    </div>
+  );
+};
 
 const DownArrow = () => (
   <div className="w-1/6" style={{marginTop: '-24px', marginBottom: '-24px'}}>
     <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="15" cy="15" r="13.5" fill="#545454" stroke="#333333" strokeWidth="3"/>
-    <path d="M20 15.8333L15 20.8333L10 15.8333M15 20.1389V9.99998" stroke="#EDF5F5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
+      <circle cx="15" cy="15" r="13.5" fill="#545454" stroke="#333333" strokeWidth="3"/>
+      <path d="M20 15.8333L15 20.8333L10 15.8333M15 20.1389V9.99998" stroke="#EDF5F5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
   </div>
-)
+);
 
 const InfoIcon = () => (
   <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,51 +142,78 @@ const InfoIcon = () => (
 );
 
 const ExchangeSelector = () => {
-  return (
-    <div className="bg-neutral rounded-lg mx-4 p-1.5">
-      <TokenPriceSection tokenName="RepTokens" rateCop={'1,14'} rateUsd={'0,15'} />
-      <div className="flex justify-center">
-        <DownArrow />
-      </div>
-      <TokenPriceSection tokenName="none" rateCop={'1,14'} rateUsd={'0,15'} />
-      <div className="flex">
-        <div className="w-24 p-3">
-          <InfoIcon />
-        </div>
-        <div>
-          <article className="prose text-white mt-2 leading-6">
-            <p>{`Repbase toma una comisión de 5% en cada transacción`}</p>
-          </article>
-        </div>
-      </div>
-      <div className="form-control">
-        <button className="btn btn-primary btn-disabled bg-gray-100" >Redimir</button>
-      </div>
-    </div>
-  )
-}
+  const [reptokenAmount, setReptokenAmount] = useState(0);
+  
 
-export const ExchangeStart = () => (
-  <div className="h-max">
-    <Titlebar />
-    <div className="container mx-auto px-3">
-      <Navbar showBackButton title="Usar Tokens" />
+  // if (getConversion.res) {
+  //   console.log({res: getConversion.res});
+  // }
+
+  const increment = () => {
+    setReptokenAmount(reptokenAmount + 10);
+  };
+
+  const decrement = () => {
+    setReptokenAmount(reptokenAmount - 10);
+  };
+
+  const isRedeemDisabled = (reptokenAmount > 0) && window.criptoSelected ? ' ' : ' btn-disabled bg-gray-400';
+  
+  return (
+    <div>
+      <div className="flex w-max">
+        <button onClick={(e) => increment(e)} className="btn btn-primary mx-2 w-1/2">Mas</button>
+        <button onClick={(e) => decrement(e)} className="btn btn-primary mx-2 w-1/2">Menos</button>
+      </div>
+      <div className="bg-neutral rounded-lg mx-4 p-1.5">
+        <ReptokenPriceSection tokenName="RepTokens" rateCop={reptokenAmount} rateUsd={reptokenAmount * .10} />
+        <div className="flex justify-center">
+          <DownArrow />
+        </div>
+        <TokenPriceSection reptokenAmount={reptokenAmount} />
+        <div className="flex">
+          <div className="w-24 p-3">
+            <InfoIcon />
+          </div>
+          <div>
+            <article className="prose text-white mt-2 leading-6">
+              <p>{'Repbase toma una comisión de 5% en cada transacción'}</p>
+            </article>
+          </div>
+        </div>
+        <div className="form-control">
+          <button className={`btn btn-primary ${isRedeemDisabled}`} >Redimir</button>
+        </div>
+      </div>
     </div>
-    <div className="px-4">
-      <TokenBalance hideButton={true}  />
-    </div>
-    <div className="px-4">
-      <article className="prose prose-xl my-4">
-        <p className="font-bold">Tasa de cambio para hoy:</p>
-      </article>
-    </div>
-    <ExchangeRate/>
-    <div className="px-4">
-      <article className="prose prose-xl my-4">
-        <p className="font-bold">Cambia RepTokens por cripto:</p>
-      </article>
-    </div>
-    <ExchangeSelector/>
+  );
+};
+
+export const ExchangeStart = () => { 
+
+
+  return (
+    <div>
+      <Titlebar />
+      <div className="container mx-auto px-3">
+        <Navbar showBackButton title="Usar Tokens" />
+      </div>
+      <div className="px-4">
+        <TokenBalance hideButton={true} />
+      </div>
+      <div className="px-4">
+        <article className="prose prose-xl my-4">
+          <p className="font-bold">Tasa de cambio para hoy:</p>
+        </article>
+      </div>
+      <ExchangeRate/>
+      <div className="px-4">
+        <article className="prose prose-xl my-4">
+          <p className="font-bold">Cambia RepTokens por cripto:</p>
+        </article>
+      </div>
+      
+      <ExchangeSelector/>
     
-  </div>    
-); 
+    </div>    
+  );}; 

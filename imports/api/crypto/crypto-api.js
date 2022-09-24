@@ -23,6 +23,23 @@ export const api = registerMethods('crypto', {
     const userId = Users.secure.userId(this);
     //TODO some sort of validation for this step
     Users.db.update({$set: {polygon_wallet_address: address}});
+  },
+  getConversion({coinType, repTokens}) {
+    const usdAmount = repTokens * .10;
+    let exchangeAmount = 0;
+
+    console.log({coinType, repTokens});
+    
+    const btcAmount = .0000053 * usdAmount;
+    const ethAmount = .000077 * usdAmount;
+
+    if (coinType === 'Ethereum') {
+      exchangeAmount = ethAmount;
+    }
+    if (coinType === 'Bitcoin') {
+      exchangeAmount = btcAmount;
+    }
+    return {exchangeAmount, usdAmount};
   }
 
 });
