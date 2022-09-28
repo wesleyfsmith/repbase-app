@@ -22,7 +22,7 @@ const ReptokenModal = ({tokenAmount, setTokens}) => {
             <article className="prose font-bold text-center text-2xl mb-2 ">
             Input reptoken amount
             </article>
-            <input onChange={(e) => setReptokenAmount(e.target.value)} onInput="this.value = Math.abs(this.value)" min="0" type="number" placeholder="Type here" value={reptokenAbout} className="input input-bordered w-full max-w-xs" />
+            <input onChange={(e) => setReptokenAmount(e.target.value)} min="0" type="number" placeholder="Type here" value={reptokenAbout} className="input input-bordered w-full max-w-xs" />
 
           </div>
 

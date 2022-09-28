@@ -49,8 +49,6 @@ export const PasswordChangeForm = () => {
 
   }
 
-  console.log({confirmPassword, newPassword});
-
   const isButtonDisabled = hasFormChanged ? ' ' : ' btn-disabled ';
 
   return (

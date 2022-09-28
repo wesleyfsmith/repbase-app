@@ -7,5 +7,6 @@
     "reptoken_address": "0x2cAADA1c033D3f53AA80f4336115aAbC848ff611",
     "company_wallet": "0xe46E0fcDB3Db1C5B4dbD734b939E3f22A91BD123",
     "alchemy_key": "jh3rTJTl-FHBSsx0gJn9281IVWhz0FEn"
-  }
+  },
+  "company_wallet_secret_key": "e7cfb7bf46648e2515146fd4636b56b95fa26a8f57210b8d71a12451b0ec7b4e"
 }

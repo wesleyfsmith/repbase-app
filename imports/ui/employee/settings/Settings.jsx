@@ -8,6 +8,7 @@ import { useApi } from '../../../api/utils/client-utils';
 import { Settings } from '../../../api/settings/settings-module';
 import { Users } from '../../../api/users/users-module';
 import { PasswordChangeForm } from './PasswordChangeForm';
+import { Crypto } from '../../../api/crypto/crypto-module';
 
 //fuck this component lol
 const SettingsForm = () => {
@@ -76,7 +77,6 @@ const SettingsForm = () => {
     try {
       Users.employeeProfileSchema.validate(userEmployeeParameters);
     } catch (e) {
-      console.log({e});
       if (names.length === 0) {
         setNamesState(' input-error ');
       }
@@ -145,6 +145,14 @@ const SettingsForm = () => {
 export const SettingsPage = () => {
   const { address, isConnected } = useAccount();
   
+  const setUserWalletAddress = useApi(Crypto.api.setUserWalletAddress);
+
+  useEffect(() => {
+    if (isConnected) {
+      setUserWalletAddress.call(address);
+    }
+  }, [address]);
+
   return (
     <div className="h-max">
     <Titlebar />
