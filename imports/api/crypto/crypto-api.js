@@ -67,7 +67,10 @@ export const api = registerMethods('crypto', {
 
       const tx = await reptokenContract.transfer(address, payout);
       const receipt = await tx.wait();
+      console.log(`Reptokens sent: ${tx.hash}`)
     }
+
+
   }
 
 });

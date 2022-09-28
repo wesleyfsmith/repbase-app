@@ -3,6 +3,9 @@ import { TimePeriods } from './timeperiods-module';
 import { Attestations } from '../attestations/attestations-module';
 import { Companies } from '../companies/companies-module';
 import moment from 'moment';
+import { Badges } from '../badges/badges-module';
+import { Crypto } from '../crypto/crypto-module';
+import { Users } from '../users/users-module';
 
 export const api = registerMethods('timeperiods', {
   getAllPeriods() {
@@ -35,6 +38,7 @@ export const api = registerMethods('timeperiods', {
     return period;
   },
   endPeriod() {
+    //todo security
     const currentPeriod = TimePeriods.api.getMostRecentPeriod.call();
     TimePeriods.db.update(currentPeriod._id, {$set: {end_date: new Date()}});
     const tulCompany = Companies.db.findOne();
@@ -43,7 +47,40 @@ export const api = registerMethods('timeperiods', {
       instance: TimePeriods.db.find().count(),
       company_id: tulCompany._id
     };
+
     TimePeriods.db.insert(timeperiod);
+
+    const users = [];
+
+    //get all the users that have attestations for the current period
+    const attestations = Attestations.db.find({timeperiod_id: currentPeriod._id});
+    attestations.forEach((attestation) => {
+      const badge = Badges.db.findOne({_id: attestation.badge_id});
+
+      let payout = 0;
+
+      //check if it's a 3 or more award
+      const attestationForBadgeType = Attestations.db.find({badge_id: badge._id, reciever_id: attestation.reciever_id}).fetch();
+      console.log({name: badge.name, number: attestationForBadgeType.length});
+      if (attestationForBadgeType.length % 3 === 0) {
+        const tripleBadge = Badges.db.findOne({name: badge.name + ' 3X'});
+        const attestationId = Attestations.db.insert({
+          badge_id: tripleBadge._id,
+          issuer_id:  Users.secure.userId(this),
+          reciever_id: attestation.reciever_id,
+          timeperiod_id: currentPeriod._id,
+          kpi_percentage: 100
+        });
+        console.log({attestationId});
+        payout = tripleBadge.reward;
+      }
+
+      users.push({
+        user_id: attestation.reciever_id,
+        payout: payout + badge.reward
+      });
+    });
+    // Crypto.api.sendRepTokens.call(users);
   }
 
 });

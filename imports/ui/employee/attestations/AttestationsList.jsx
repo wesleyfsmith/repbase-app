@@ -36,6 +36,7 @@ export const AttestationsList = () => {
   useEffect(() => {
     getAttestationCountsForUser.call(Meteor.userId());
   }, []);
+
   const isGrayedOut = (badgeName) => {
     if (!getAttestationCountsForUser.res) {
       return false;
@@ -59,9 +60,9 @@ export const AttestationsList = () => {
         </div>
         <div className="flex flex-row space-x-1 justify-evenly pt-2">
           <AttestationMedal badgeIcon={<KpiBronce3x/>} textColor={'white'} title={'3X KPI\nBronce'} grayedOut={isGrayedOut('Bronce 3X')}/>
-          <AttestationMedal badgeIcon={<KpiPlata3x/>} textColor={'white'} title={'3X KPI\nPlata'} grayedOut={isGrayedOut('Bronce 3X')}/>
-          <AttestationMedal badgeIcon={<KpiOro3x/>} textColor={'white'} title={'3X KPI\nOro'} grayedOut={isGrayedOut('Bronce 3X')}/>
-          <AttestationMedal badgeIcon={<KpiPlatino3x/>} textColor={'white'} title={'3X KPI\nPlatino'} grayedOut={isGrayedOut('Bronce 3X')}/>
+          <AttestationMedal badgeIcon={<KpiPlata3x/>} textColor={'white'} title={'3X KPI\nPlata'} grayedOut={isGrayedOut('Plata 3X')}/>
+          <AttestationMedal badgeIcon={<KpiOro3x/>} textColor={'white'} title={'3X KPI\nOro'} grayedOut={isGrayedOut('Oro 3X')}/>
+          <AttestationMedal badgeIcon={<KpiPlatino3x/>} textColor={'white'} title={'3X KPI\nPlatino'} grayedOut={isGrayedOut('Platino 3X')}/>
         </div>
       </div>
     </div>
