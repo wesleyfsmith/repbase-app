@@ -27,8 +27,6 @@ export const api = registerMethods('crypto', {
   getConversion({coinType, repTokens}) {
     const usdAmount = repTokens * .10;
     let exchangeAmount = 0;
-
-    console.log({coinType, repTokens});
     
     const btcAmount = .0000053 * usdAmount;
     const ethAmount = .000077 * usdAmount;
@@ -39,7 +37,12 @@ export const api = registerMethods('crypto', {
     if (coinType === 'Bitcoin') {
       exchangeAmount = btcAmount;
     }
-    return {exchangeAmount, usdAmount};
+
+    //5% commission
+    const comission = exchangeAmount * .05;
+    exchangeAmount = exchangeAmount - (comission);
+
+    return {exchangeAmount, usdAmount, usdAmountAfterComission: usdAmount - (usdAmount * .05), comission};
   }
 
 });

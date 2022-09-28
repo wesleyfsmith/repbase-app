@@ -18,6 +18,7 @@ import {
   lightTheme
 } from '@rainbow-me/rainbowkit';
 import {chains, wagmiClient} from '/imports/utils/wallet-client-utils';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
 // import your route components too
 
 import { Signup } from './employee/account/Signup';
@@ -58,7 +59,7 @@ Meteor.startup(() => {
             borderRadius: 'medium',
             overlayBlur: 'small',
             fontStack: 'rounded'
-          })} chains={chains} initialChain={chain.polygon}>
+          })} chains={chains} initialChain={chain.polygonMumbai}>
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<LandingPage />}/>
@@ -69,8 +70,8 @@ Meteor.startup(() => {
                 <Route path="/attestation/:rewardType" element={<PageContainer><KpiAttestation /></PageContainer>} />
                 <Route path="/exchange" element={<PageContainer><ExchangeStart/></PageContainer>} />
                 <Route path="/exchange/tokenselect" element={<PageContainer><TokenSelect/></PageContainer>} />
-                <Route path="/exchange/txreceipt" element={<PageContainer><TransactionReceipt/></PageContainer>} />
-                <Route path="/exchange/confirmtx/:coinType" element={<PageContainer><ConfirmTransaction/></PageContainer>} />
+                <Route path="/exchange/txreceipt/:coinType/:repTokens" element={<PageContainer><TransactionReceipt/></PageContainer>} />
+                <Route path="/exchange/confirmtx/:coinType/:repTokens" element={<PageContainer><ConfirmTransaction/></PageContainer>} />
                 <Route path="/attestationscount" element={<PageContainer><AttestationsCount/></PageContainer>} />
                 <Route path="/passwordreset" element={<PageContainer><PasswordReset/></PageContainer>} />
                 <Route path="/empresa/inicio" element={<Inicio />} />

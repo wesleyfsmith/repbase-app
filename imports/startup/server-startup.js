@@ -13,8 +13,6 @@ const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
 };
 
-console.log({run_fixtures: Meteor.settings.run_fixtures});
-
 // seed fixtures
 if (Users.db.find().count() === 0 && Meteor.settings.run_fixtures) {
   console.log('---------- Running Fixtures ----------');

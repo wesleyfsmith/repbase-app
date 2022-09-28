@@ -6,6 +6,37 @@ import { Link } from 'react-router-dom';
 import { useApi } from '../../../api/utils/client-utils';
 import { Crypto } from '../../../api/crypto/crypto-module';
 
+const ReptokenModal = ({tokenAmount, setTokens}) => {
+  const [reptokenAbout, setReptokenAmount] = useState(tokenAmount);
+
+  const isValid = reptokenAbout > 0 ? ' ' : ' btn-disabled';
+  
+  return (
+    <div>
+      {/* <label htmlFor="my-modal-3" className="btn modal-button">open modal</label> */}
+      <input type="checkbox" id="reptoken-modal" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box w-11/12 max-w-3xl">
+          <label htmlFor="reptoken-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+          <div className="m-4 mx-auto ">
+            <article className="prose font-bold text-center text-2xl mb-2 ">
+            Input reptoken amount
+            </article>
+            <input onChange={(e) => setReptokenAmount(e.target.value)} onInput="this.value = Math.abs(this.value)" min="0" type="number" placeholder="Type here" value={reptokenAbout} className="input input-bordered w-full max-w-xs" />
+
+          </div>
+
+          <div className="flex max-w-5xl">
+            <label onClick={() => setTokens(reptokenAbout)} htmlFor="reptoken-modal" className={`btn btn-primary w-full mr-2 ${isValid}`}>
+              Confirmar
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ExchangeRate = () => (
   <div className="bg-neutral rounded-lg mx-4 p-1.5">
     <div className="bg-accent rounded-lg p-3 flex">
@@ -36,25 +67,29 @@ const ExchangeRate = () => (
 );
 
 const ReptokenPriceSection = ({rateCop, rateUsd}) => (
-  <div className="bg-accent rounded-lg p-1 flex justify-between">
-    <div className='flex flex-col justify-center pl-1'>
-      <span className="badge badge-primary p-4">
-        <article className="prose prose-xl text-white flex justify-end w-full">
-          <p>
+  <label htmlFor="reptoken-modal">
+    <div className="bg-accent rounded-lg p-1 flex justify-between">
+    
+      <div className='flex flex-col justify-center pl-1'>
+        <span className="badge badge-primary p-4">
+          <article className="prose prose-xl text-white flex justify-end w-full">
+            <p>
             Reptokens
-          </p>
+            </p>
+          </article>
+        </span>
+      </div>
+      <div className='w-1/3 text-white pr-2'>
+        <article className="prose prose-xl text-white flex justify-end w-full">
+          <p className="font-bold">{rateCop}</p>
         </article>
-      </span>
+        <article className="prose text-white flex justify-end">
+          <p>{`USD$ ${rateUsd}`}</p>
+        </article> 
+      </div>
     </div>
-    <div className='w-1/3 text-white pr-2'>
-      <article className="prose prose-xl text-white flex justify-end w-full">
-        <p className="font-bold">{rateCop}</p>
-      </article>
-      <article className="prose text-white flex justify-end">
-        <p>{`USD$ ${rateUsd}`}</p>
-      </article> 
-    </div>
-  </div>
+  </label>
+  
 );
 
 
@@ -63,7 +98,6 @@ const TokenPriceSection = ({ reptokenAmount }) => {
   const getConversion = useApi(Crypto.api.getConversion);
   
   useEffect(() => {
-    console.log({sel: window.criptoSelected});
     if (window.criptoSelected) {
       getConversion.call({coinType: window.criptoSelected, repTokens: reptokenAmount});
     }
@@ -143,28 +177,12 @@ const InfoIcon = () => (
 
 const ExchangeSelector = () => {
   const [reptokenAmount, setReptokenAmount] = useState(0);
-  
-
-  // if (getConversion.res) {
-  //   console.log({res: getConversion.res});
-  // }
-
-  const increment = () => {
-    setReptokenAmount(reptokenAmount + 10);
-  };
-
-  const decrement = () => {
-    setReptokenAmount(reptokenAmount - 10);
-  };
 
   const isRedeemDisabled = (reptokenAmount > 0) && window.criptoSelected ? ' ' : ' btn-disabled bg-gray-400';
   
   return (
     <div>
-      <div className="flex w-max">
-        <button onClick={(e) => increment(e)} className="btn btn-primary mx-2 w-1/2">Mas</button>
-        <button onClick={(e) => decrement(e)} className="btn btn-primary mx-2 w-1/2">Menos</button>
-      </div>
+      <ReptokenModal tokenAmount={reptokenAmount} setTokens={setReptokenAmount}/>
       <div className="bg-neutral rounded-lg mx-4 p-1.5">
         <ReptokenPriceSection tokenName="RepTokens" rateCop={reptokenAmount} rateUsd={reptokenAmount * .10} />
         <div className="flex justify-center">
@@ -182,7 +200,9 @@ const ExchangeSelector = () => {
           </div>
         </div>
         <div className="form-control">
-          <button className={`btn btn-primary ${isRedeemDisabled}`} >Redimir</button>
+          <Link to={`/exchange/confirmtx/eth/${reptokenAmount}`} className="w-full">
+            <button className={`btn btn-primary ${isRedeemDisabled} w-full`} >Redimir</button>
+          </Link>
         </div>
       </div>
     </div>

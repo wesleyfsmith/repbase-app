@@ -1,3 +1,11 @@
 {
-  "run_fixtures": true
+  "run_fixtures": true,
+  "public": {
+    "btc_address": "0xD6BE34f6AC67b355CDedA8EE92bB512ED7347fe5",
+    "usdc_address": "0x7911a3C6551E108d27B4419a6ff7E6652caaB830",
+    "eth_address": "0x37d6aC75746d9A7be6D9Ee85004aAE3bB6f3B1D9",
+    "reptoken_address": "0x2cAADA1c033D3f53AA80f4336115aAbC848ff611",
+    "company_wallet": "0xe46E0fcDB3Db1C5B4dbD734b939E3f22A91BD123",
+    "alchemy_key": "jh3rTJTl-FHBSsx0gJn9281IVWhz0FEn"
+  }
 }

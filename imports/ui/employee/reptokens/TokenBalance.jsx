@@ -4,6 +4,9 @@ import { useApi } from '/imports/api/utils/client-utils'
 import { Link } from 'react-router-dom';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { shortenAddress } from '../../../utils/crypto-client-helpers';
+import { useContractRead } from 'wagmi';
+import { Meteor } from 'meteor/meteor';
+import { contractAbi } from '../exchange/ReptokenAbi';
 
 const NoReptokens = () => (
   <div className="h-full">
@@ -36,15 +39,24 @@ export const TokenBalance = ({hideButton}) => {
   const getUserWalletAddress = useApi(Crypto.api.getWalletAddressForUser);
   const { address, isConnected } = useAccount();
 
+  const { data, isError, isLoading } = useContractRead({
+    addressOrName: Meteor.settings.public.reptoken_address,
+    contractInterface: contractAbi,
+    functionName: 'balanceOf',
+    args: address
+  });
+
+  // console.log({data: data.toString()});
+
   useEffect(async () => {
     await getUserTokenBalance.call(Meteor.userId());
     await getUserWalletAddress.call(Meteor.userId());
   }, []);
 
-  if (address) {
+  if (address && data) {
     return (
       <div className="h-full">
-        <TokenBalanceOnly balance={getUserTokenBalance.res} address={address} />
+        <TokenBalanceOnly balance={data.toString()} address={address} />
         <div className="form-control">
           {!hideButton && 
             <Link to="/exchange">

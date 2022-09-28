@@ -18,7 +18,8 @@ export const api = registerMethods('timeperiods', {
         _id: period._id
       });
     });
-    return results.slice(1, results.length);
+    return results;
+    // return results.slice(1, results.length);
   },
   getMostRecentPeriod() {
     const timePeriods = TimePeriods.db.find({}, {sort: {instance: -1}, limit: 1}).fetch();

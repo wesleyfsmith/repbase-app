@@ -47,7 +47,9 @@ const ConfirmationModal = ({finalizePeriod}) => {
           </div>
             
           <div className="flex max-w-5xl">
-            <button onClick={finalizePeriod} className="btn btn-primary w-full mr-2">Confirmar</button>
+            <label  onClick={finalizePeriod} className="btn btn-primary w-full mr-2" htmlFor="my-modal-3">
+              Confirmar
+            </label>
             {/* <div className="modal-action">
               <a href="#" className="btn btn-primary w-1/2 btn-outline">Cancelar</a>
 

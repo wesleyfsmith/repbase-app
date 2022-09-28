@@ -1,8 +1,86 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Titlebar } from '../components/Titlebar';
 import { Navbar } from '../components/Navbar';
 import { Link, useParams } from 'react-router-dom';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { useApi } from '../../../api/utils/client-utils';
+import { Crypto } from '../../../api/crypto/crypto-module';
+import {
+  usePrepareContractWrite,
+  useContractWrite,
+  useWaitForTransaction,
+} from 'wagmi';
+import { Meteor } from 'meteor/meteor';
+import PuffLoader from "react-spinners/PuffLoader";
+import { TransactionReceipt } from './TransactionReceipt';
+import { useNavigate } from "react-router-dom";
+import { contractAbi } from './ReptokenAbi';
+
+
+// [
+//   {
+//     name: 'transfer',
+//     type: 'function',
+//     stateMutability: 'nonpayable',
+//     inputs: [
+//       {internalType: 'address', name: 'to', type: 'address'}, 
+//       {internalType: 'uint256', name: 'amount', type: 'uint256'}
+//     ]
+//   }
+// ],
+
+const SuccessFullyConverted = () => {
+
+}
+
+const SendTransactionButton = ({coinType, repTokens, setShowReceipt}) => {
+  const navigate = useNavigate();
+  const [hasClicked, setHasClicked] = useState(false);
+  const {
+    config
+  } = usePrepareContractWrite({
+    addressOrName: Meteor.settings.public.reptoken_address,
+    contractInterface: contractAbi,
+    args: [Meteor.settings.public.company_wallet, parseInt(repTokens) * 10], //times 10 cuz decimals, gotta fix this
+    functionName: 'transfer',
+    enabled: true
+  })
+  const { data, error, isError, write } = useContractWrite(config);
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
+  if (isSuccess) {
+    navigate(`/exchange/txreceipt/${coinType}/${repTokens}`)
+  }
+
+  console.log({ data, error, isError, write });
+
+  if (isError && hasClicked) {
+    setHasClicked(false);
+  }
+
+  // console.log({isLoading, isSuccess});
+
+  let buttonText = hasClicked ? 'Confirm in wallet' : 'Confirmar';
+  buttonText = isLoading ? 'Processing...' : buttonText;
+  const buttonEnabled = hasClicked ? ' btn-disabled text-white ' : ' ';
+
+  const sendTx = () => {
+    setHasClicked(true);
+    write();
+  }
+
+  return (
+    <div className="form-control mt-4">
+      <button onClick={() => sendTx()} className={`btn btn-primary text-white ${buttonEnabled}`}>
+        {hasClicked && <PuffLoader size={30} color="#ffffff" />}
+        <p className="text-white">{buttonText}</p>
+      </button>
+    </div>
+  );
+};
 
 const BitcoinIcon = () => (
   <div className="w-10">
@@ -51,9 +129,22 @@ const InfoIcon = () => (
 );
 
 const CardBox = ({name, rate, info, icon}) => { 
-  let { coinType } = useParams();
+  let { coinType, repTokens } = useParams();
   const { address, isConnected } = useAccount();
 
+  const getConversion = useApi(Crypto.api.getConversion);
+
+  useEffect(() => {
+    let cType = null;
+    if (coinType === 'eth') {
+      cType = 'Ethereum';
+    }
+    if (coinType === 'btc') {
+      cType = 'Bitcoin';
+    }
+    //TODO make this cleaner
+    getConversion.call({coinType: cType, repTokens });
+  }, []);
 
   let coinIcon = null;
   if (coinType === 'eth') {
@@ -73,7 +164,7 @@ const CardBox = ({name, rate, info, icon}) => {
             <p className="">Reptokens a redimir</p>
           </article>
           <article className="prose prose-xl">
-            <p className="font-bold">0,007</p>
+            <p className="font-bold">{repTokens}</p>
           </article>
         </div>
         <BlueLineSeparator />
@@ -83,12 +174,15 @@ const CardBox = ({name, rate, info, icon}) => {
           </article>
           <article className="prose prose-xl">
             <div className="flex justify-end">
-              <p className="font-bold m-0">0,007</p>
+              {
+                getConversion.res &&
+                <p className="font-bold m-0">{getConversion.res.exchangeAmount}</p>
+              }
             </div>
             <div className="flex">
               {coinIcon}
               <article className="prose flex flex-col justify-center">
-            wBTC
+                {coinType.toUpperCase()}
               </article>
             </div>
           </article>
@@ -105,16 +199,23 @@ const CardBox = ({name, rate, info, icon}) => {
         Subtotal
           </article>
           <article className="prose prose-xl">
-            <p className="font-bold">$0,007</p>
+            {
+              getConversion.res &&
+                <p className="font-bold">${getConversion.res.usdAmountAfterComission}</p>
+            }
           </article>
         </div>
         <div className="flex justify-between">
           <article className="prose prose-xl flex flex-col justify-center font-bold">
         Total de wBTC
           </article>
-          <article className="prose prose-xl">
-            <p className="font-bold">0,007</p>
-          </article>
+          {
+            getConversion.res &&
+              <article className="prose prose-xl font-bold">
+                {getConversion.res.exchangeAmount}
+              </article>
+          }
+          
         </div>
         <div className="flex mt-4">
           <div className="w-24 p-4">
@@ -126,9 +227,7 @@ const CardBox = ({name, rate, info, icon}) => {
             </article>
           </div>
         </div>
-        <div className="form-control mt-4">
-          <button onClick={(e) => clickRegisterButton(e)} className="btn btn-primary">Confirmar</button>
-        </div>
+        <SendTransactionButton coinType={coinType} repTokens={repTokens} />
       </div>
     </div>
     

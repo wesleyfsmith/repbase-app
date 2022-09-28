@@ -57,7 +57,7 @@ export const Kpis = () => {
         </article>
         {
           getTimePeriods.res &&
-          <PeriodTable timeperiods={getTimePeriods.res}/>
+          <PeriodTable timeperiods={getTimePeriods.res.slice(1, getTimePeriods.res.length)}/>
         }
         
       </div>
