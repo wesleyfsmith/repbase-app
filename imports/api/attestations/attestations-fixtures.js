@@ -56,11 +56,14 @@ export const fixtures = {
       badgeId = platinoBadge._id;
     }
     const attestation = {
-      badge_id: badgeId,
+      metadata: {
+        badge_id: badgeId,
+        timeperiod_id: timeperiodId,
+        kpi_percentage: kpiPercentage,
+      },
       issuer_id: managerId,
       reciever_id: userId,
-      timeperiod_id: timeperiodId,
-      kpi_percentage: kpiPercentage
+      type: 'tulV1'
     };
     Users.test.loginAsUser(managerId);
     Attestations.db.insert(attestation);

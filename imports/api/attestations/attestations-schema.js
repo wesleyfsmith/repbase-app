@@ -5,18 +5,32 @@ import { Badges } from '../badges/badges-module';
 import { Users } from '../users/users-module';
 import { Companies } from '../companies/companies-module';
 
-export const schema = new SimpleSchema({
-  nft_id: {
-    type: String,
-    optional: true, //TODO this shouldn't be optional forever
-    fixture: () => 'XXX',
-  },
+const tulMetadataSchema = new SimpleSchema({
   badge_id: {
     type: String,
     custom() {
       return idExistsInCollection(Badges.db, this.value);
     }
   },
+  timeperiod_id: {
+    type: String,
+    custom() {
+      return idExistsInCollection(Companies.db, this.value);
+    }
+  },
+  kpi_percentage: {
+    type: Number,
+    fixture: () => 80
+  }
+});
+
+export const schema = new SimpleSchema({
+  nft_id: {
+    type: String,
+    optional: true, //TODO this shouldn't be optional forever
+    fixture: () => 'XXX',
+  },
+  
   issuer_id: {
     type: String,
     custom() {
@@ -33,16 +47,14 @@ export const schema = new SimpleSchema({
     type: Date,
     defaultValue: new Date(),
   },
-  timeperiod_id: {
+  type: {
     type: String,
-    custom() {
-      return idExistsInCollection(Companies.db, this.value);
-    }
+    allowedValues: ['tulV1'],
   },
-  kpi_percentage: {
-    type: Number,
-    fixture: () => 80
+  metadata: {
+    type: tulMetadataSchema
   }
+
 });
   
 

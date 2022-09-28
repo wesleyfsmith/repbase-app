@@ -51,7 +51,7 @@ export const api = registerMethods('companies', {
         if (!employee.attestationCount) {
           employee.attestationCount = 0;
         }
-        employee.attestationCount += Attestations.db.find({reciever_id: employee._id, timeperiod_id: period._id}).fetch().length;
+        employee.attestationCount += Attestations.db.find({reciever_id: employee._id, 'metadata.timeperiod_id': period._id}).fetch().length;
       }
     });
     
@@ -66,10 +66,10 @@ export const api = registerMethods('companies', {
     for (let i = 0; i < employees.length; i++) {
       //TODO optimize this query
       const employee = employees[i];
-      const attestations = Attestations.db.find({reciever_id: employee._id, timeperiod_id: periodId}).fetch();
+      const attestations = Attestations.db.find({reciever_id: employee._id, 'metadata.timeperiod_id': periodId}).fetch();
       const attestation = attestations[0];
-      if (attestations.length > 0 && attestation && attestation.kpi_percentage > 0) {
-        employee.registeredKpi = attestation.kpi_percentage + '%';
+      if (attestations.length > 0 && attestation && attestation.metadata.kpi_percentage > 0) {
+        employee.registeredKpi = attestation.metadata.kpi_percentage + '%';
       } else {
         employee.registeredKpi = '--';
       }

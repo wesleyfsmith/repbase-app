@@ -35,24 +35,27 @@ export const api = registerMethods('attestations', {
     }
 
     //check if user already has attestation for the current period
-    const attestations = Attestations.db.find({reciever_id: userId, timeperiod_id: timeperiod._id}).fetch();
+    const attestations = Attestations.db.find({'metadata.reciever_id': userId, 'metadata.timeperiod_id': timeperiod._id}).fetch();
     if (attestations.length > 0) {
       const attestation = attestations[0];
       if (!badgeId) {
         Attestations.db.remove({_id: attestation._id}); //delete because no reward
       } else {
-        Attestations.db.update({_id: attestation._id}, {$set: {kpi_percentage: kpiPercentage, badge_id: badgeId}});
+        Attestations.db.update({_id: attestation._id}, {$set: {'metadata.kpi_percentage': kpiPercentage, 'metadata.badge_id': badgeId}});
       }
     } else {
       if (!badgeId) {
         return;
       }
       const attestation = {
-        badge_id: badgeId,
         issuer_id: Users.secure.userId(this),
         reciever_id: userId,
-        timeperiod_id: timeperiod._id,
-        kpi_percentage: kpiPercentage
+        type: 'tulV1',
+        metadata: {
+          kpi_percentage: kpiPercentage,
+          badge_id: badgeId,
+          timeperiod_id: timeperiod._id
+        }
       };
       Attestations.db.insert(attestation);
     }
@@ -64,7 +67,7 @@ export const api = registerMethods('attestations', {
     const badges = Badges.db.find().fetch();
     const results = [];
     badges.forEach((badge) => {
-      const count = Attestations.db.find({badge_id: badge._id}).fetch().length;
+      const count = Attestations.db.find({'metadata.badge_id': badge._id}).fetch().length;
       results.push({
         name: badge.name,
         attestationCount: count,
@@ -91,7 +94,7 @@ export const api = registerMethods('attestations', {
     const results = [];
     currentMonthTimePeriods.forEach((period) => {
       badges.forEach((badge) => {
-        const count = Attestations.db.find({badge_id: badge._id, timeperiod_id: period._id}).fetch().length;
+        const count = Attestations.db.find({'metadata.badge_id': badge._id, 'metadata.timeperiod_id': period._id}).fetch().length;
         results.push({
           name: badge.name,
           attestationCount: count,
@@ -110,7 +113,7 @@ export const api = registerMethods('attestations', {
     const badges = Badges.db.find().fetch();
     const results = [];
     badges.forEach((badge) => {
-      const count = Attestations.db.find({badge_id: badge._id, reciever_id: userId}).fetch().length;
+      const count = Attestations.db.find({'metadata.badge_id': badge._id, reciever_id: userId}).fetch().length;
       results.push({
         name: badge.name,
         attestationCount: count,
@@ -122,8 +125,8 @@ export const api = registerMethods('attestations', {
   getBadgeStatisticsForUser({userId, badgeName}) {
     const badge = Badges.db.findOne({name: badgeName});
 
-    const companyAttestationCount = Attestations.db.find({badge_id: badge._id}).fetch().length;
-    const userAttestationsCount = Attestations.db.find({badge_id: badge._id, reciever_id: userId}).fetch().length;
+    const companyAttestationCount = Attestations.db.find({'metadata.badge_id': badge._id}).fetch().length;
+    const userAttestationsCount = Attestations.db.find({'metadata.badge_id': badge._id, reciever_id: userId}).fetch().length;
 
     return {
       veces: userAttestationsCount,
@@ -135,14 +138,14 @@ export const api = registerMethods('attestations', {
   },
   getAttestionHistoryForUserAndBadge({userId, badgeName}) {
     const badge = Badges.db.findOne({name: badgeName});
-    const userAttestations = Attestations.db.find({badge_id: badge._id, reciever_id: userId}).fetch();
+    const userAttestations = Attestations.db.find({'metadata.badge_id': badge._id, 'metadata.reciever_id': userId}).fetch();
 
     const results = [];
     userAttestations.forEach((attestation) => {
-      const timeperiod = TimePeriods.db.findOne({_id: attestation.timeperiod_id});
+      const timeperiod = TimePeriods.db.findOne({_id: attestation.metadata.timeperiod_id});
       if (!timeperiod.end_date) return; //skip the current time period
       results.push({
-        kpiPercentage: attestation.kpi_percentage,
+        kpiPercentage: attestation.metadata.kpi_percentage,
         startDate: timeperiod.start_date,
         endDate: timeperiod.end_date
       });

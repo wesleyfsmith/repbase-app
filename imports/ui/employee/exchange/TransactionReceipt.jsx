@@ -131,7 +131,7 @@ const CardBox = ({name, rate, info, icon}) => {
         }
       </div>
       <div className="form-control mt-4">
-        <button onClick={(e) => navigate('/exchange')} className="btn btn-primary">Regresar</button>
+        <button onClick={() => navigate(-2)} className="btn btn-primary">Regresar</button>
       </div>
     </div>
   );};

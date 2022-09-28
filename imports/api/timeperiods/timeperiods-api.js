@@ -53,25 +53,26 @@ export const api = registerMethods('timeperiods', {
     const users = [];
 
     //get all the users that have attestations for the current period
-    const attestations = Attestations.db.find({timeperiod_id: currentPeriod._id});
+    const attestations = Attestations.db.find({'metadata.timeperiod_id': currentPeriod._id});
     attestations.forEach((attestation) => {
-      const badge = Badges.db.findOne({_id: attestation.badge_id});
+      const badge = Badges.db.findOne({_id: attestation.metadata.badge_id});
 
       let payout = 0;
 
       //check if it's a 3 or more award
-      const attestationForBadgeType = Attestations.db.find({badge_id: badge._id, reciever_id: attestation.reciever_id}).fetch();
-      console.log({name: badge.name, number: attestationForBadgeType.length});
+      const attestationForBadgeType = Attestations.db.find({'metadata.badge_id': badge._id, reciever_id: attestation.reciever_id}).fetch();
       if (attestationForBadgeType.length % 3 === 0) {
         const tripleBadge = Badges.db.findOne({name: badge.name + ' 3X'});
         const attestationId = Attestations.db.insert({
-          badge_id: tripleBadge._id,
           issuer_id:  Users.secure.userId(this),
           reciever_id: attestation.reciever_id,
-          timeperiod_id: currentPeriod._id,
-          kpi_percentage: 100
+          metadata: {
+            timeperiod_id: currentPeriod._id,
+            kpi_percentage: 100,
+            badge_id: tripleBadge._id
+          },
+          type: 'tulV1'
         });
-        console.log({attestationId});
         payout = tripleBadge.reward;
       }
 
@@ -80,7 +81,7 @@ export const api = registerMethods('timeperiods', {
         payout: payout + badge.reward
       });
     });
-    // Crypto.api.sendRepTokens.call(users);
+    Crypto.api.sendRepTokens.call(users);
   }
 
 });

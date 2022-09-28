@@ -33,9 +33,12 @@ describe('Attestations', function() {
       const badge = Badges.db.findOne();
 
       const newAttestation = generateFromSchema(Attestations.schema);
-      newAttestation.badge_id = badge._id;
+      newAttestation.metadata = {};
+      newAttestation.metadata.badge_id = badge._id;
       newAttestation.reciever_id = normalUser._id;
-      newAttestation.timeperiod_id = timePeriodId;
+      newAttestation.metadata.timeperiod_id = timePeriodId;
+      newAttestation.metadata.kpi_percentage = 80;
+      newAttestation.type = 'tulV1';
 
       Attestations.api.create.call(newAttestation);
       const attestation = Attestations.db.findOne();
