@@ -15,7 +15,9 @@ import PuffLoader from "react-spinners/PuffLoader";
 import { TransactionReceipt } from './TransactionReceipt';
 import { useNavigate } from "react-router-dom";
 import { contractAbi } from './ReptokenAbi';
+import { Alchemy, Network } from 'alchemy-sdk';
 
+// const alchemy = new Alchemy({apiKey: Meteor.settings.public.alchemy_key, network: Network.MATIC_MUMBAI});
 
 // [
 //   {
@@ -45,6 +47,13 @@ const SendTransactionButton = ({coinType, repTokens, setShowReceipt}) => {
     functionName: 'transfer',
     enabled: true
   })
+
+  console.log({config});
+
+  if (config) {
+    config.request.gasPrice = "50";
+  }
+
   const { data, error, isError, write } = useContractWrite(config);
 
   const { isLoading, isSuccess } = useWaitForTransaction({

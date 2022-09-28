@@ -65,6 +65,11 @@ export const api = registerMethods('crypto', {
       const user = Users.db.findOne({_id: users[i].user_id});
       const address = user.polygon_wallet_address;
 
+      if (!address) {
+        console.log(`User did not have wallet address, skipping`);
+        continue;
+      }
+
       const tx = await reptokenContract.transfer(address, payout);
       const receipt = await tx.wait();
       console.log(`Reptokens sent: ${tx.hash}`)
