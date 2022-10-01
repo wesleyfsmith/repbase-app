@@ -76,12 +76,16 @@ export const api = registerMethods('timeperiods', {
         payout = tripleBadge.reward;
       }
 
-      users.push({
-        user_id: attestation.reciever_id,
-        payout: payout + badge.reward
-      });
+      payout += badge.reward;
+
+      Users.db.update({_id: attestation.reciever_id}, {$inc: {'employee_profile.reptokensToRedeem': payout}});
+
+      // users.push({
+      //   user_id: attestation.reciever_id,
+      //   payout: payout + badge.reward
+      // });
     });
-    Crypto.api.sendRepTokens.call(users);
+    // Crypto.api.sendRepTokens.call(users);
   }
 
 });

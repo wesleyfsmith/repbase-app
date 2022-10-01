@@ -48,9 +48,7 @@ const SendTransactionButton = ({coinType, repTokens, setShowReceipt}) => {
     enabled: true
   })
 
-  console.log({config});
-
-  if (config) {
+  if (config && config.request) {
     config.request.gasPrice = "50";
   }
 
@@ -64,7 +62,7 @@ const SendTransactionButton = ({coinType, repTokens, setShowReceipt}) => {
     navigate(`/exchange/txreceipt/${coinType}/${repTokens}`)
   }
 
-  console.log({ data, error, isError, write });
+  // console.log({ data, error, isError, write });
 
   if (isError && hasClicked) {
     setHasClicked(false);

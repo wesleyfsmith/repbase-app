@@ -20,6 +20,14 @@ export const employeeProfileSchema = new SimpleSchema({
   company_sector: {
     type: String,
     fixture: () => 'business'
+  },
+  reptokensToRedeem: {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+    custom() {
+      return this.value >= 0;
+    }
   }
 });
 

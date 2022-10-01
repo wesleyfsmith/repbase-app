@@ -46,7 +46,48 @@ export const api = registerMethods('crypto', {
     const comission = exchangeAmount * .05;
     exchangeAmount = exchangeAmount - (comission);
 
-    return {exchangeAmount, usdAmount, usdAmountAfterComission: usdAmount - (usdAmount * .05), comission};
+    return {exchangeAmount: parseFloat(exchangeAmount.toFixed(14)), 
+      usdAmount, 
+      usdAmountAfterComission: parseFloat((usdAmount - (usdAmount * .05)).toFixed(14)), 
+      comission: parseFloat(comission.toFixed(14))};
+  },
+  async addRepTokens({userId, amount}) {
+    Users.db.update({_id: userId}, {'employee_profile.reptokensToRedeem': amount});
+  },
+  hasReptokensToRedeem() {
+    const userId = Users.secure.userId(this);
+    if (!userId) {
+      throw new Meteor.Error('Must be logged in to call this function');
+    }
+
+    const user = Users.db.findOne({_id: userId});
+    if (!user.employee_profile.reptokensToRedeem) return 0;
+
+    return user.employee_profile.reptokensToRedeem;
+    
+  },
+  async redeemReptokens(walletAddress) {
+    const userId = Users.secure.userId(this);
+    if (!userId) {
+      throw new Meteor.Error('Must be logged in to call this function');
+    }
+
+    const user = Users.db.findOne({_id: userId});
+
+    if (user.employee_profile.reptokensToRedeem == 0 || !user.employee_profile.reptokensToRedeem) {
+      throw new Meteor.Error('No reptokens to redeem');
+    }
+
+    const provider = new ethers.providers.AlchemyProvider('maticmum', Meteor.settings.public.alchemy_key);
+
+    const wallet = new ethers.Wallet(Meteor.settings.company_wallet_secret_key, provider);
+
+    const reptokenContract = new ethers.Contract(Meteor.settings.public.reptoken_address, contractAbi, wallet);
+
+    const tx = await reptokenContract.transfer(walletAddress, user.employee_profile.reptokensToRedeem);
+    const receipt = await tx.wait();
+    console.log(`Reptokens sent: ${tx.hash}`);
+
   },
   async sendRepTokens(users) {
     if (Meteor.isClient) return; //server side only
@@ -72,7 +113,7 @@ export const api = registerMethods('crypto', {
 
       const tx = await reptokenContract.transfer(address, payout);
       const receipt = await tx.wait();
-      console.log(`Reptokens sent: ${tx.hash}`)
+      console.log(`Reptokens sent: ${tx.hash}`);
     }
 
 
