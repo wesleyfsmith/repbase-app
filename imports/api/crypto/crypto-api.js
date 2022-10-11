@@ -86,8 +86,11 @@ export const api = registerMethods('crypto', {
 
     const tx = await reptokenContract.transfer(walletAddress, user.employee_profile.reptokensToRedeem);
     const receipt = await tx.wait();
-    console.log(`Reptokens sent: ${tx.hash}`);
 
+    Users.db.update({_id: userId}, {$set: {'employee_profile.reptokensToRedeem': 0}});
+
+    console.log(`Reptokens sent: ${tx.hash}`);
+    return "success";
   },
   async sendRepTokens(users) {
     if (Meteor.isClient) return; //server side only

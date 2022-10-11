@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Titlebar } from '../components/Titlebar';
 import { Navbar } from '../components/Navbar';
 import { TokenBalance } from '../reptokens/TokenBalance';
@@ -9,6 +9,7 @@ import { FooterBlack } from '../footer/FooterBlack';
 import { useApi } from '../../../api/utils/client-utils';
 import { Crypto } from '../../../api/crypto/crypto-module';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const AlertIcon = () => (
   <div className="w-1/2 flex flex-col justify-center pl-4">
@@ -18,13 +19,68 @@ const AlertIcon = () => (
   </div>
 );
 
-export const Dashboard = () => {
+const ReptokenRedemptionAlert = () => {
   const hasReptokensToRedeem = useApi(Crypto.api.hasReptokensToRedeem);
+  const redeemReptokens = useApi(Crypto.api.redeemReptokens);
   const { address, isConnected } = useAccount();
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
     hasReptokensToRedeem.call();
-  }, []);
+  }, [redeemReptokens.res]);
+
+  const redeemTokens = async () => {
+    setButtonClicked(true);
+    await redeemReptokens.call(address);
+    hasReptokensToRedeem.call();
+  };
+
+  console.log({res: hasReptokensToRedeem.res > 0});
+
+  let btnEnabled = isConnected ? ' ' : ' btn-disabled';
+  const buttonText = buttonClicked ? 'Procesando' : 'Redimir';
+  btnEnabled = buttonClicked ? ' btn-disabled' : ' '; 
+
+  if (hasReptokensToRedeem.res && hasReptokensToRedeem.res > 0 ) {
+    return (
+      <div>
+                <div className="alert alert-warning shadow-lg mb-8">
+      <div className="flex">
+        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-10 w-10" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+        <div className="flex flex-col">
+          <span>You have {hasReptokensToRedeem.res} reptokens available for redemption.</span>
+        </div>
+      </div>
+      <div className="w-full flex flex-col justify-center">
+        <button onClick={() => redeemTokens()} className={`btn btn-sm btn-primary w-full ${btnEnabled}`}>
+          {buttonClicked && <PuffLoader size={30} color="#ffffff" />}
+          {buttonText}
+        </button>
+        {
+          !isConnected &&
+                <article className="text-error text-center">
+                You must connect a wallet to redeem
+                </article>
+        }
+              
+      </div>
+    
+    </div>
+                
+                
+                <TokenBalance />
+
+      </div>
+      
+    )
+  } else {
+    return <TokenBalance />;
+  }
+  
+}
+
+export const Dashboard = () => {
+
 
   return (
     <div className="bg-neutral">
@@ -37,32 +93,11 @@ export const Dashboard = () => {
               <CogIcon className="h-7 w-7 text-blue-500 mt-1 ml-auto"/>
             </Link>
           } noCenterTitle={true} />
-     
+
+        
         <div className="m-4">
-          <div className="alert alert-success shadow-lg mb-2">
-            <div className="flex flex-col">
-              <div className="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <span>You have 10 reptokens available for redemption.</span>
-              </div>
-              <div>
-                {/* {
-                  !isConnected ?
-                    <article className="text-error">
-                  You must connect a wallet to redeem
-                    </article>
-                    :
-                    <div className="flex-none">
-                      <button className="btn btn-sm btn-primary">Redimir</button>
-                    </div>
-                } */}
-              </div>
-              
-            </div>
-            
-            
-          </div>
-          <TokenBalance />
+          
+        <ReptokenRedemptionAlert />
         </div>
       </div>
     
